@@ -1,0 +1,8 @@
+global: { scrape_interval: 15s }
+scrape_configs:
+  - job_name: "prometheus"
+    static_configs: [ { targets: ["prometheus:9090"] } ]
+  # Optional: Jenkins metrics if you install the Prometheus plugin
+  # - job_name: "jenkins"
+  #   metrics_path: /prometheus
+  #   static_configs: [ { targets: ["jenkins:8080"] } ]
