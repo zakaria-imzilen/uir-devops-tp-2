@@ -1,0 +1,85 @@
+# Terraform - GCP Demo VM
+
+This Terraform configuration provisions a single Ubuntu 22.04 VM on Google Cloud Platform with the required ports opened for the demo stack.
+
+## What This Creates
+- Ubuntu 22.04 VM instance in GCP
+- Firewall rules for demo application ports
+- SSH access configuration
+- Public IP address for external access
+
+## Prerequisites
+- [gcloud CLI](https://cloud.google.com/sdk/docs/install)
+- [Terraform](https://developer.hashicorp.com/terraform/downloads)
+- Access to a GCP project with Compute Engine API enabled
+- SSH key pair on your machine (`~/.ssh/id_rsa` and `~/.ssh/id_rsa.pub`)
+- Appropriate IAM permissions (Compute Admin role recommended)
+
+## Setup and Run
+
+### 1. Authenticate with GCP:
+```bash
+gcloud auth application-default login
+```
+
+### 2. Navigate to the Terraform folder:
+```bash
+cd terraform
+```
+
+### 3. Initialize Terraform:
+```bash
+terraform init
+```
+
+### 4. Validate the configuration:
+```bash
+terraform validate
+```
+
+### 5. Plan the changes (replace <YOUR_PROJECT_ID> with your GCP project ID):
+```bash
+terraform plan -var="project_id=<YOUR_PROJECT_ID>" -var="ssh_public_key=~/.ssh/id_rsa.pub"
+```
+
+### 6. Apply the configuration to create the VM and firewall:
+```bash
+terraform apply -var="project_id=<YOUR_PROJECT_ID>" -var="ssh_public_key=~/.ssh/id_rsa.pub" -auto-approve
+```
+
+### 7. Get the public IP of the VM:
+```bash
+terraform output -raw public_ip
+```
+
+## Expected Output
+After successful deployment, you'll get:
+- VM public IP address
+- SSH connection command: `ssh ubuntu@<PUBLIC_IP>`
+- Access to your demo application through the configured firewall rules
+
+## Cleanup
+**(Important)** Destroy resources after the demo to avoid charges:
+```bash
+terraform destroy -var="project_id=<YOUR_PROJECT_ID>" -var="ssh_public_key=~/.ssh/id_rsa.pub" -auto-approve
+```
+
+## Troubleshooting
+
+### Common Issues:
+- **API not enabled**: Ensure the Compute Engine API is enabled in your GCP project
+- **SSH key issues**: Verify your SSH public key path is correct (`~/.ssh/id_rsa.pub` exists)
+- **Permission denied**: Check that you have the necessary IAM permissions (Compute Admin role)
+- **Project not found**: Double-check your project ID is correct and accessible
+- **Quota exceeded**: Verify you haven't exceeded compute quotas in your project
+
+### Verification Steps:
+1. Check if your project exists: `gcloud projects list`
+2. Verify active project: `gcloud config get-value project`
+3. Test SSH key: `ssh-keygen -l -f ~/.ssh/id_rsa.pub`
+
+## Important Notes
+- This will create billable GCP resources
+- Remember to run `terraform destroy` when finished to avoid ongoing charges
+- The VM will be created in the default region/zone unless specified otherwise
+- Firewall rules allow traffic on demo application ports - review security implications for production use
