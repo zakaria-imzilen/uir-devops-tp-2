@@ -36,6 +36,17 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       console.error("Database error:", error)
+      // Handle missing table/schema cache error more clearly
+      if ((error as any)?.code === "PGRST205") {
+        return NextResponse.json(
+          {
+            error:
+              "Apps table is missing. Initialize your database (see app/db/schema.apps.sql)",
+            code: "PGRST205",
+          },
+          { status: 500 },
+        )
+      }
       return NextResponse.json({ error: "Failed to create app" }, { status: 500 })
     }
 
