@@ -1,16 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import type { Editor } from "grapesjs";
-import GrapesJsStudio, {
-  StudioCommands,
-  ToastVariant,
-} from "@grapesjs/studio-sdk/react";
+import GrapesJsStudio from "@grapesjs/studio-sdk/react";
 
 import "@grapesjs/studio-sdk/style";
 
@@ -22,37 +18,37 @@ interface GrapesJSEditorProps {
 }
 
 export function GrapesJSEditor({ app, isNew = false }: GrapesJSEditorProps) {
-  const editorRef = useRef<HTMLDivElement>(null);
   const [appName, setAppName] = useState(app?.name || "");
-  const [isSaving, setIsSaving] = useState(false);
   const router = useRouter();
 
-  const [editor, setEditor] = useState<Editor>();
+  const editorRef = useRef<Editor | null>(null);
 
   const onReady = (editor: Editor) => {
     console.log("Editor loaded", editor);
-    setEditor(editor);
+    editorRef.current = editor;
   };
 
-  const showToast = (id: string) =>
-    editor?.runCommand(StudioCommands.toastAdd, {
-      id,
-      header: "Toast header",
-      content: "Data logged in console",
-      variant: ToastVariant.Info,
-    });
+  const handleDownload = () => {
+    const editor = editorRef.current;
+    if (!editor) return;
 
-  const getProjetData = () => {
-    if (editor) {
-      console.log({ projectData: editor?.getProjectData() });
-      showToast("log-project-data");
-    }
-  };
+    try {
+      const html = editor.getHtml();
+      const css = editor.getCss();
+      const name = (appName?.trim() || "index").replace(/\s+/g, "-").toLowerCase();
+      const content = `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="utf-8" />\n  <meta name="viewport" content="width=device-width, initial-scale=1" />\n  <title>${appName || "GrapesJS Page"}</title>\n  <style>${css}</style>\n</head>\n<body>\n${html}\n</body>\n</html>`;
 
-  const getExportData = () => {
-    if (editor) {
-      console.log({ html: editor?.getHtml(), css: editor?.getCss() });
-      showToast("log-html-css");
+      const blob = new Blob([content], { type: "text/html;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${name}.html`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      console.error("Failed to export HTML", e);
     }
   };
 
@@ -75,6 +71,9 @@ export function GrapesJSEditor({ app, isNew = false }: GrapesJSEditorProps) {
         <div className="flex items-center gap-2">
           <Button variant="outline" onClick={() => router.push("/dashboard")}>
             Back to Dashboard
+          </Button>
+          <Button onClick={handleDownload}>
+            Download HTML
           </Button>
           {/* <Button onClick={handleSave} disabled={isSaving || !appName.trim()}>
             {isSaving ? "Saving..." : "Save"}
