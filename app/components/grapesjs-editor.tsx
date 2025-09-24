@@ -11,10 +11,26 @@ import { toast } from "@/hooks/use-toast";
 
 import "@grapesjs/studio-sdk/style";
 
+// Default template used when creating a brand new app
+const DEFAULT_TEMPLATE_HTML = `
+<div class="hero" style="padding:40px; text-align:center; background:linear-gradient(135deg,#f0f4ff,#f9f9fb); border-radius:12px; margin:24px">
+  <h1 style="margin:0 0 12px; font-size:32px;">Welcome to your new app</h1>
+  <p style="margin:0 0 20px; color:#555;">Start building with GrapesJS components</p>
+  <a href="#" class="btn" style="display:inline-block; padding:10px 16px; background:#111827; color:#fff; border-radius:6px; text-decoration:none;">Get Started</a>
+  <div style="margin-top:24px; font-size:12px; color:#6b7280;">Edit this content in the editor</div>
+</div>`;
+
+const DEFAULT_TEMPLATE_CSS = `
+.btn:hover { opacity: 0.9; }
+`;
+
 interface GrapesJSEditorProps {
   app?: {
     id?: string;
     name: string;
+    html?: string;
+    css?: string;
+    js?: string;
   };
   isNew?: boolean;
 }
@@ -28,6 +44,19 @@ export function GrapesJSEditor({ app, isNew = false }: GrapesJSEditorProps) {
   const onReady = (editor: Editor) => {
     console.log("Editor loaded", editor);
     editorRef.current = editor;
+    // If editing an existing app, hydrate editor with saved HTML/CSS
+    try {
+      if (app && (app.html || app.css)) {
+        if (app.html) editor.setComponents(app.html);
+        if (app.css) editor.setStyle(app.css);
+      } else if (isNew) {
+        // For new apps, ensure a friendly default view
+        editor.setComponents(DEFAULT_TEMPLATE_HTML);
+        editor.setStyle(DEFAULT_TEMPLATE_CSS);
+      }
+    } catch (e) {
+      console.error("Failed to load saved content into GrapesJS", e);
+    }
   };
 
   const handleDownload = () => {
@@ -37,12 +66,11 @@ export function GrapesJSEditor({ app, isNew = false }: GrapesJSEditorProps) {
     try {
       const html = editor.getHtml();
       const css = editor.getCss();
+      const jsOut = (editor as any)?.getJs ? (editor as any).getJs() : (app?.js || "");
       const name = (appName?.trim() || "index")
         .replace(/\s+/g, "-")
         .toLowerCase();
-      const content = `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="utf-8" />\n  <meta name="viewport" content="width=device-width, initial-scale=1" />\n  <title>${
-        appName || "GrapesJS Page"
-      }</title>\n  <style>${css}</style>\n</head>\n<body>\n${html}\n</body>\n</html>`;
+      const content = `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="utf-8" />\n  <meta name="viewport" content="width=device-width, initial-scale=1" />\n  <title>${appName || "GrapesJS Page"}</title>\n  <style>${css}</style>\n</head>\n<body>\n${html}\n${jsOut ? `<script>${jsOut}</script>` : ""}\n</body>\n</html>`;
 
       const blob = new Blob([content], { type: "text/html;charset=utf-8" });
       const url = URL.createObjectURL(blob);
@@ -78,7 +106,7 @@ export function GrapesJSEditor({ app, isNew = false }: GrapesJSEditorProps) {
       setIsSaving(true);
       const html = editor.getHtml();
       const css = editor.getCss();
-      const js = (editor as any)?.getJs ? (editor as any).getJs() : "";
+      const js = (editor as any)?.getJs ? (editor as any).getJs() : (app?.js || "");
 
       if (isNew) {
         const res = await fetch("/api/apps/create", {
@@ -165,9 +193,9 @@ export function GrapesJSEditor({ app, isNew = false }: GrapesJSEditorProps) {
                 pages: [
                   {
                     name: "Home",
-                    component: `<h1 style="padding: 2rem; text-align: center">
-                      Hello Studio 👋
-                    </h1>`,
+                    component: isNew
+                      ? DEFAULT_TEMPLATE_HTML
+                      : app?.html || `<h1 style="padding: 2rem; text-align: center">\n  Hello Studio 👋\n</h1>`,
                   },
                 ],
               },
