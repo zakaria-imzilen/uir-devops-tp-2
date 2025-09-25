@@ -31,19 +31,23 @@ export default async function PreviewPage({ params }: PreviewPageProps) {
   return (
     <div className="h-screen flex flex-col">
       {/* Top toolbar */}
-      <div className="border-b bg-background p-4 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <h1 className="text-xl font-semibold">Preview: {app.name}</h1>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" asChild>
-            <Link href="/dashboard">Dashboard</Link>
-          </Button>
-          <Button asChild>
-            <Link href={`/apps/${app.id}`}>Edit</Link>
-          </Button>
-        </div>
-      </div>
+      <div className="relative border-b border-white/20 bg-white/10 backdrop-blur-xl shadow-lg shadow-purple-500/5 p-4 flex items-center justify-between">
+  {/* Gradient background, confined to toolbar */}
+  <div className="absolute inset-0 -z-10 bg-gradient-to-br from-indigo-950 via-purple-900 to-pink-900" />
+
+  <div className="flex items-center gap-4">
+    <h1 className="text-xl font-semibold text-white/90">Preview: {app.name}</h1>
+  </div>
+  <div className="flex items-center gap-2">
+    <Button variant="outline" asChild className="bg-white/5 border-white/20 text-white hover:bg-white/10 hover:border-white/30 transition-all">
+      <Link href="/dashboard">Dashboard</Link>
+    </Button>
+    <Button asChild className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 text-white shadow-md transition-all duration-200 hover:scale-[1.02]">
+      <Link href={`/apps/${app.id}`}>Edit</Link>
+    </Button>
+  </div>
+</div>
+
 
       {/* Preview iframe */}
       <div className="flex-1">

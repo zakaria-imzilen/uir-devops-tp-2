@@ -156,31 +156,47 @@ export function GrapesJSEditor({ app, isNew = false }: GrapesJSEditorProps) {
   };
 
   return (
-    <div className="h-screen flex flex-col">
+    <div className="h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-pink-900 flex flex-col">
       {/* Top toolbar */}
-      <div className="border-b bg-background p-4 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <Label htmlFor="app-name">App Name:</Label>
-            <Input
-              id="app-name"
-              value={appName}
-              onChange={(e) => setAppName(e.target.value)}
-              placeholder="Enter app name"
-              className="w-64"
-            />
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" onClick={() => router.push("/dashboard")}>
-            Back to Dashboard
-          </Button>
-          <Button onClick={handleDownload}>Download HTML</Button>
-          <Button onClick={handleSave} disabled={isSaving || !appName.trim()}>
-            {isSaving ? "Saving..." : isNew ? "Save" : "Save Changes"}
-          </Button>
-        </div>
-      </div>
+     
+<div className="border-b border-white/20 bg-white/10 backdrop-blur-xl shadow-lg shadow-purple-500/5 p-4 flex items-center justify-between">
+  <div className="flex items-center gap-4">
+    <div className="flex items-center gap-2">
+      <Label htmlFor="app-name" className="text-white/90 font-medium">
+        App Name:
+      </Label>
+      <Input
+        id="app-name"
+        value={appName}
+        onChange={(e) => setAppName(e.target.value)}
+        placeholder="Enter app name"
+        className="w-64 bg-white/5 border-white/20 text-white placeholder:text-white/40 focus:border-purple-400 focus:ring-purple-400/20"
+      />
+    </div>
+  </div>
+  <div className="flex items-center gap-2">
+    <Button 
+      variant="outline" 
+      onClick={() => router.push("/dashboard")}
+      className="bg-white/5 border-white/20 text-white hover:bg-white/10 hover:border-white/30 transition-all duration-200"
+    >
+      Back to Dashboard
+    </Button>
+    <Button 
+      onClick={handleDownload}
+      className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 border-0 text-white shadow-md transition-all duration-200 hover:scale-[1.02]"
+    >
+      Download HTML
+    </Button>
+    <Button 
+      onClick={handleSave} 
+      disabled={isSaving || !appName.trim()}
+      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 text-white shadow-md transition-all duration-200 hover:scale-[1.02] disabled:opacity-50 disabled:hover:scale-100"
+    >
+      {isSaving ? "Saving..." : isNew ? "Save" : "Save Changes"}
+    </Button>
+  </div>
+</div>
 
       {/* Editor layout */}
       <div className="flex-1 w-full h-full overflow-hidden">
