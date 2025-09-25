@@ -1,0 +1,5 @@
+- name: Bootstrap Ubuntu hosts with Docker
+  hosts: dev
+  become: true
+  roles:
+    - docker
