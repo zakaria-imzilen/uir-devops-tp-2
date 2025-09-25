@@ -39,12 +39,21 @@ terraform validate
 
 ### 5. Plan the changes (replace <YOUR_PROJECT_ID> with your GCP project ID):
 ```bash
-terraform plan -var="project_id=<YOUR_PROJECT_ID>" -var="ssh_public_key=~/.ssh/id_rsa.pub"
+terraform plan \
+  -var="project_id=<YOUR_PROJECT_ID>" \
+  -var="ssh_public_key=~/.ssh/id_rsa.pub" \
+  # Optional: restrict ingress to your IP (recommended)
+  -var='allowed_source_ranges=["<YOUR_IP>/32"]'
 ```
 
 ### 6. Apply the configuration to create the VM and firewall:
 ```bash
-terraform apply -var="project_id=<YOUR_PROJECT_ID>" -var="ssh_public_key=~/.ssh/id_rsa.pub" -auto-approve
+terraform apply \
+  -var="project_id=<YOUR_PROJECT_ID>" \
+  -var="ssh_public_key=~/.ssh/id_rsa.pub" \
+  # Optional: restrict ingress to your IP (recommended)
+  -var='allowed_source_ranges=["<YOUR_IP>/32"]' \
+  -auto-approve
 ```
 
 ### 7. Get the public IP of the VM:
@@ -82,4 +91,4 @@ terraform destroy -var="project_id=<YOUR_PROJECT_ID>" -var="ssh_public_key=~/.ss
 - This will create billable GCP resources
 - Remember to run `terraform destroy` when finished to avoid ongoing charges
 - The VM will be created in the default region/zone unless specified otherwise
-- Firewall rules allow traffic on demo application ports - review security implications for production use
+- Firewall rules allow traffic on demo application ports. By default, ingress is open to `0.0.0.0/0` for demo convenience; override with `allowed_source_ranges` for better security (e.g., your IP `/32`).

@@ -19,3 +19,9 @@ variable "ssh_public_key" {
   description = "Path to SSH public key file"
   type        = string
 }
+
+variable "allowed_source_ranges" {
+  description = "List of CIDR blocks allowed to access exposed ports"
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
+}

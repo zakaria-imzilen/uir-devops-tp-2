@@ -43,6 +43,9 @@ resource "google_compute_firewall" "devops_fw" {
   name    = "devops-fw"
   network = "default"
 
+  // Define allowed source ranges for ingress traffic
+  source_ranges = var.allowed_source_ranges
+
   allow {
     protocol = "tcp"
     ports    = ["22", "8080", "8081", "9000", "3000", "9090"]
