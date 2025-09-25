@@ -1,0 +1,9 @@
+version: "3.9"
+services:
+  web:
+    image: ${DOCKER_IMAGE}:${TAG}   # Jenkins pipeline will substitute these
+    ports:
+      - "8080:3000"                 # VM port 8080 → container port 3000
+    env_file:
+      - ./app.env                   # optional, NEXT_PUBLIC_* vars etc.
+    restart: unless-stopped
