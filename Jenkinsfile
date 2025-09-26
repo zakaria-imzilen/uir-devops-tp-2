@@ -19,13 +19,15 @@ pipeline {
     stage('Install & Test (Node 20)') {
       agent any
       steps {
-        sh '''
-          npm ci
-          npm test
-          npm run build
-        '''
+        dir('app') {
+          sh '''
+            npm ci
+            npm test
+            npm run build
+          '''
+        }
       }
-      post { always { junit 'reports/junit.xml' } }
+      post { always { junit 'app/reports/junit.xml' } }
     }
 
     stage('SonarQube Analysis') {
