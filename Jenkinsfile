@@ -1,9 +1,10 @@
 pipeline {
   agent none
-  options { timestamps(); ansiColor('xterm') }
+  options { timestamps() }
 
   environment {
     DOCKER_IMAGE = 'zakariaimzilen/uir-devops'
+    SCANNER_HOME = tool 'SonarScanner'
   }
 
   stages {
@@ -16,7 +17,7 @@ pipeline {
     }
 
     stage('Install & Test (Node 20)') {
-      agent { docker { image 'node:20-alpine' } }
+      agent any
       steps {
         sh '''
           npm ci
@@ -28,10 +29,12 @@ pipeline {
     }
 
     stage('SonarQube Analysis') {
-        def scannerHome = tool 'SonarScanner';
+      agent any
+      steps {
         withSonarQubeEnv() {
-        sh "${scannerHome}/bin/sonar-scanner"
+          sh "${SCANNER_HOME}/bin/sonar-scanner"
         }
+      }
     }
 
     stage('Quality Gate') {
@@ -46,7 +49,7 @@ pipeline {
     }
 
     stage('Docker Build & Push') {
-      agent { docker { image 'docker:26-cli'; args '-v /var/run/docker.sock:/var/run/docker.sock' } }
+      agent any
       steps {
         withCredentials([usernamePassword(credentialsId:'docker-creds', usernameVariable:'U', passwordVariable:'P')]) {
           sh """
@@ -61,12 +64,11 @@ pipeline {
 
     stage('Deploy to VM') {
       when { branch 'main' }
-      agent { docker { image 'alpine:3.20' } }
+      agent any
       steps {
         sshagent(credentials: ['vm-ssh']) {
           sh '''
             set -e
-            apk add --no-cache openssh-client
             VM_IP=$(cd terraform && terraform output -raw public_ip)
             ssh -o StrictHostKeyChecking=no ubuntu@$VM_IP 'mkdir -p ~/ops'
             scp -o StrictHostKeyChecking=no ops/app-compose.yml ubuntu@$VM_IP:~/ops/app-compose.yml
