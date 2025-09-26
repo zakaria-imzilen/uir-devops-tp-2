@@ -27,7 +27,7 @@ pipeline {
           '''
         }
       }
-      post { always { junit 'app/reports/junit.xml' } }
+    //   post { always { junit 'app/reports/junit.xml' } }
     }
 
     stage('SonarQube Analysis') {
