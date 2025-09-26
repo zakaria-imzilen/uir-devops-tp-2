@@ -10,7 +10,7 @@ services:
     env_file:
       - ./app.env                   # optional, NEXT_PUBLIC_* vars etc.
     restart: unless-stopped
-     labels:
+    labels:
       - "prometheus.scrape=true"
       - "prometheus.port=3000"
       - "prometheus.path=/api/metrics"
