@@ -1,0 +1,75 @@
+pipeline {
+  agent any
+
+  environment {
+    // Set your Docker registry and image here
+    DOCKER_IMAGE = credentials('docker-image-name') // OR hardcode like 'youruser/uir-devops-app'
+    DOCKER_REGISTRY = credentials('docker-registry-url') // optional if using Docker Hub
+    DOCKER_USERNAME = credentials('docker-username')
+    DOCKER_PASSWORD = credentials('docker-password')
+    TAG = "dev-${env.BUILD_NUMBER}"
+  }
+
+  options {
+    timestamps()
+    ansiColor('xterm')
+    disableConcurrentBuilds()
+  }
+
+  triggers {
+    // Enable this after configuring the GitHub webhook for the dev branch
+    githubPush()
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
+    stage('Build Docker image') {
+      steps {
+        script {
+          // Expect a Dockerfile in repo root or app/; adjust context and Dockerfile path as needed
+          def context = 'app'
+          sh """
+            docker build -t ${DOCKER_IMAGE}:${TAG} ${context}
+          """
+        }
+      }
+    }
+
+    stage('Login & Push (optional)') {
+      when { expression { return env.DOCKER_USERNAME?.trim() && env.DOCKER_PASSWORD?.trim() } }
+      steps {
+        sh """
+          echo ${DOCKER_PASSWORD} | docker login ${DOCKER_REGISTRY} -u ${DOCKER_USERNAME} --password-stdin || \
+            echo "Login skipped (registry may be Docker Hub or creds not set)"
+          docker push ${DOCKER_IMAGE}:${TAG}
+        """
+      }
+    }
+
+    stage('Deploy DEV via Compose') {
+      steps {
+        dir('ops') {
+          withEnv(["DOCKER_IMAGE=${env.DOCKER_IMAGE}", "TAG=${env.TAG}"]) {
+            sh """
+              docker compose -f dev-compose.yml pull || true
+              docker compose -f dev-compose.yml up -d
+            """
+          }
+        }
+      }
+    }
+  }
+
+  post {
+    always {
+      script {
+        echo "Deployed DEV: ${DOCKER_IMAGE}:${TAG} on port 8082"
+      }
+    }
+  }
+}

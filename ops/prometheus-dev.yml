@@ -1,0 +1,26 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["prometheus:9090"]
+
+  - job_name: "nextjs-app-dev"
+    metrics_path: /api/apps/metrics
+    scrape_interval: 10s
+    static_configs:
+      - targets: ["136.112.147.14:8082"]   # DEV app on VM port 8082
+
+  - job_name: "jenkins"
+    metrics_path: /prometheus
+    scrape_interval: 30s
+    basic_auth:
+      username: ${JENKINS_USER}
+      password: ${JENKINS_TOKEN}
+    static_configs:
+      - targets: ["jenkins:8080"]         # container name inside Docker network
+
+  - job_name: "docker-containers"
+    static_configs:
+      - targets: ["dockerhost:9323"]   
