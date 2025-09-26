@@ -54,6 +54,9 @@ services:
     extra_hosts:
       - "dockerhost:host-gateway"
     networks: [infra-net]
+    environment:
+      - JENKINS_USER=${JENKINS_USER}
+      - JENKINS_TOKEN=${JENKINS_TOKEN}
 
   grafana:
     image: grafana/grafana:10.4.5
@@ -64,3 +67,4 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     volumes: [ "grafana_data:/var/lib/grafana" ]
     networks: [infra-net]
+
