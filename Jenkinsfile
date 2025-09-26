@@ -1,6 +1,7 @@
 pipeline {
   agent none
   options { timestamps() }
+  tools { nodejs 'NodeJS_20' }
 
   environment {
     DOCKER_IMAGE = 'zakariaimzilen/uir-devops'
