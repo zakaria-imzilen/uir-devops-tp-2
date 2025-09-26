@@ -64,10 +64,11 @@ pipeline {
       steps {
         withCredentials([usernamePassword(credentialsId:'docker-creds', usernameVariable:'U', passwordVariable:'P')]) {
           sh """
+            set -e
             docker login -u "$U" -p "$P"
-            docker build -t ${DOCKER_IMAGE}:${TAG} -t ${DOCKER_IMAGE}:latest .
-            docker push ${DOCKER_IMAGE}:${TAG}
-            docker push ${DOCKER_IMAGE}:latest
+            export DOCKER_IMAGE='${DOCKER_IMAGE}' TAG='${TAG}'
+            docker compose -f ops/app-compose.yml build
+            docker compose -f ops/app-compose.yml push
           """
         }
       }

@@ -11,13 +11,20 @@ scrape_configs:
       - targets: ["host.docker.internal:8080"]  # Your app on VM
     metrics_path: /api/metrics
     scrape_interval: 10s
-  
+    static_configs:
+      - targets: ["136.112.147.14:8080"] # if app runs on VM directly
+
   - job_name: "jenkins"
     static_configs:
       - targets: ["jenkins:8080"]
     metrics_path: /prometheus
     scrape_interval: 30s
-  
+    basic_auth:
+      username: ${JENKINS_USER}
+      password: ${JENKINS_TOKEN}
+    static_configs:
+      - targets: ["jenkins:8080"] # container name inside Docker network
+
   - job_name: "docker-containers"
     static_configs:
-      - targets: ["host.docker.internal:9323"]  # Docker daemon metrics
+      - targets: ["dockerhost:9323"]
