@@ -23,9 +23,13 @@ pipeline {
         nodejs('NodeJS_20') {
           dir('app') {
             sh '''
+              set -e
+              export CI=true
+              export NPM_CONFIG_AUDIT=false
+              export NPM_CONFIG_FUND=false
               node -v
               npm -v
-              npm ci
+              npm ci --no-audit --no-fund
               npm test
               npm run build
             '''
