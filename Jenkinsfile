@@ -21,9 +21,9 @@ pipeline {
       steps {
         dir('app') {
           sh '''
-            npm ci
-            npm test
-            npm run build
+            npx npm ci
+            npx npm test
+            npx npm run build
           '''
         }
       }
