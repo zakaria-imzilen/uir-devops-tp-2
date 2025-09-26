@@ -24,12 +24,9 @@ pipeline {
           dir('app') {
             sh '''
               set -e
-              export CI=true
-              export NPM_CONFIG_AUDIT=false
-              export NPM_CONFIG_FUND=false
               node -v
               npm -v
-              npm ci --no-audit --no-fund
+              npm ci --force
               npm test
               npm run build
             '''
