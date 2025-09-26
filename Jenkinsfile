@@ -64,6 +64,7 @@ pipeline {
         }
       }
     }
+    
 
     stage('Deploy to VM') {
       when { branch 'main' }
@@ -76,6 +77,18 @@ pipeline {
             ssh -o StrictHostKeyChecking=no ubuntu@$VM_IP 'mkdir -p ~/ops'
             scp -o StrictHostKeyChecking=no ops/app-compose.yml ubuntu@$VM_IP:~/ops/app-compose.yml
             ssh -o StrictHostKeyChecking=no ubuntu@$VM_IP "export DOCKER_IMAGE='${DOCKER_IMAGE}' TAG='${TAG}'; docker compose -f ~/ops/app-compose.yml pull && docker compose -f ~/ops/app-compose.yml up -d"
+          '''
+        }
+      }
+    }
+    stage('Deploy ops Infrastructure') {
+      when { branch 'main' }
+      agent any
+      steps {
+        sshagent(credentials: ['vm-ssh']) {
+          sh '''
+            cd ansible
+            ansible-playbook -i inventory.ini site.yml --tags deploy
           '''
         }
       }
