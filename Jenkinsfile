@@ -5,6 +5,7 @@ pipeline {
   environment {
     DOCKER_IMAGE = 'zakariaimzilen/uir-devops'
     SCANNER_HOME = tool 'SonarScanner'
+    SONARQUBE_INSTALLATION = 'SonarQube'
   }
 
   stages {
@@ -31,7 +32,7 @@ pipeline {
     stage('SonarQube Analysis') {
       agent any
       steps {
-        withSonarQubeEnv() {
+        withSonarQubeEnv("${SONARQUBE_INSTALLATION}") {
           sh "${SCANNER_HOME}/bin/sonar-scanner"
         }
       }
