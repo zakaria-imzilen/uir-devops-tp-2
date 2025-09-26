@@ -7,31 +7,27 @@
     mode: '0755'
   tags: deploy
 
-- name: Copy ops folder contents
+- name: Copy ops folder contents (except .env)
   copy:
     src: "{{ playbook_dir }}/../ops/"
     dest: /home/ubuntu/ops/
     owner: ubuntu
     group: ubuntu
     mode: preserve
-    backup: yes
   tags: deploy
 
-- name: Stop existing containers
+- name: Create .env file with secrets
+  template:
+    src: env.j2
+    dest: /home/ubuntu/ops/.env
+    owner: ubuntu
+    group: ubuntu
+    mode: '0600'  # Only readable by owner
+  tags: deploy
+
+- name: Restart docker compose
   shell: |
     cd /home/ubuntu/ops
     docker compose down || true
-  ignore_errors: yes
-  tags: deploy
-
-- name: Start docker compose services
-  shell: |
-    cd /home/ubuntu/ops
     docker compose up -d
-  tags: deploy
-  register: compose_result
-
-- name: Show docker compose status
-  debug:
-    msg: "Docker Compose Result: {{ compose_result.stdout }}"
   tags: deploy

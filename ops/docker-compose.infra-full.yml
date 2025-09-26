@@ -54,9 +54,8 @@ services:
     extra_hosts:
       - "dockerhost:host-gateway"
     networks: [infra-net]
-    environment:
-      - JENKINS_USER=${JENKINS_USER}
-      - JENKINS_TOKEN=${JENKINS_TOKEN}
+    env_file:
+      - .env  # ← Loads variables from .env file
 
   grafana:
     image: grafana/grafana:10.4.5
