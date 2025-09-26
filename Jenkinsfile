@@ -81,8 +81,14 @@ pipeline {
         }
       }
     }
+    // ✅ DEPLOY ONLY WHEN ops/ FOLDER CHANGES
     stage('Deploy ops Infrastructure') {
-      when { branch 'main' }
+      when { 
+        allOf {
+          branch 'main'
+          changeset "ops/**"  // Only when ops/ folder has changes
+        }
+      }
       agent any
       steps {
         sshagent(credentials: ['vm-ssh']) {
