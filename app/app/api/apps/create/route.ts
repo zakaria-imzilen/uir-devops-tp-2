@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
     if (error) {
       console.error("Database error:", error)
       // Handle missing table/schema cache error more clearly
-      if ((error as any)?.code === "PGRST205") {
+      if (error?.code === "PGRST205") {
         return NextResponse.json(
           {
             error:

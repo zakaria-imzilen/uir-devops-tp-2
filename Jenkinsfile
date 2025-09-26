@@ -26,7 +26,7 @@ pipeline {
               set -e
               node -v
               npm -v
-              npm ci --force
+              npm i -f
               npm test
               npm run build
             '''

@@ -28,7 +28,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     }
 
     // Build update object
-    const updateData: any = {}
+    const updateData: {name?: string; html?: string; css?: string; js?: string} = {}
     if (name !== undefined) updateData.name = name.trim()
     if (html !== undefined) updateData.html = html
     if (css !== undefined) updateData.css = css

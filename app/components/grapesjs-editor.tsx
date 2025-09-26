@@ -66,7 +66,7 @@ export function GrapesJSEditor({ app, isNew = false }: GrapesJSEditorProps) {
     try {
       const html = editor.getHtml();
       const css = editor.getCss();
-      const jsOut = (editor as any)?.getJs ? (editor as any).getJs() : (app?.js || "");
+      const jsOut = editor?.getJs ? editor.getJs() : (app?.js || "");
       const name = (appName?.trim() || "index")
         .replace(/\s+/g, "-")
         .toLowerCase();
@@ -98,7 +98,7 @@ export function GrapesJSEditor({ app, isNew = false }: GrapesJSEditorProps) {
         title: "App name required",
         description: "Please enter a name before saving.",
         variant: "destructive",
-      } as any);
+      });
       return;
     }
 
@@ -106,7 +106,7 @@ export function GrapesJSEditor({ app, isNew = false }: GrapesJSEditorProps) {
       setIsSaving(true);
       const html = editor.getHtml();
       const css = editor.getCss();
-      const js = (editor as any)?.getJs ? (editor as any).getJs() : (app?.js || "");
+      const js = editor?.getJs ? editor.getJs() : (app?.js || "");
 
       if (isNew) {
         const res = await fetch("/api/apps/create", {
@@ -126,7 +126,7 @@ export function GrapesJSEditor({ app, isNew = false }: GrapesJSEditorProps) {
         toast({
           title: "App created",
           description: `Saved as “${name}”.`,
-        } as any);
+        });
         if (data?.id) router.push(`/apps/${data.id}`);
       } else if (app?.id) {
         const res = await fetch(`/api/apps/${app.id}/update`, {
@@ -139,17 +139,17 @@ export function GrapesJSEditor({ app, isNew = false }: GrapesJSEditorProps) {
           const err = await res.json().catch(() => ({}));
           throw new Error(err?.error || `Failed to update app (${res.status})`);
         }
-        toast({ title: "App saved", description: `Updated “${name}”.` } as any);
+        toast({ title: "App saved", description: `Updated “${name}”.` });
       } else {
         throw new Error("Missing app id for update");
       }
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.error(e);
       toast({
         title: "Save failed",
-        description: e?.message || "Unexpected error",
+        description: "Unexpected error",
         variant: "destructive",
-      } as any);
+      });
     } finally {
       setIsSaving(false);
     }
