@@ -1,7 +1,7 @@
 pipeline {
   agent none
   options { timestamps() }
-  tools { nodejs 'NodeJS_20' }
+  
 
   environment {
     DOCKER_IMAGE = 'zakariaimzilen/uir-devops'
@@ -20,12 +20,16 @@ pipeline {
     stage('Install & Test (Node 20)') {
       agent any
       steps {
-        dir('app') {
-          sh '''
-            npm ci
-            npm test
-            npm run build
-          '''
+        nodejs('NodeJS_20') {
+          dir('app') {
+            sh '''
+              node -v
+              npm -v
+              npm ci
+              npm test
+              npm run build
+            '''
+          }
         }
       }
     //   post { always { junit 'app/reports/junit.xml' } }
