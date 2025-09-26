@@ -51,6 +51,8 @@ services:
     volumes:
       - prometheus_data:/prometheus
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    extra_hosts:
+      - "dockerhost:host-gateway"
     networks: [infra-net]
 
   grafana:
