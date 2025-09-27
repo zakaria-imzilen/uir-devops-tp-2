@@ -65,6 +65,7 @@ pipeline {
         }
       }
     }
+    
 
     stage('Build Docker Image') {
     steps {
@@ -107,6 +108,29 @@ stage('Security Scan') {
         }
       }
     }
+    // ✅ DEPLOY ONLY WHEN ops/ FOLDER CHANGES
+    stage('Deploy ops Infrastructure') {
+      when { 
+        allOf {
+          branch 'main'
+          changeset "ops/**"
+        }
+      }
+      agent any
+      steps {
+        sshagent(credentials: ['vm-ssh']) {
+          withCredentials([string(credentialsId: 'prometheus-jenkins-token', variable: 'JENKINS_TOKEN')]) {
+            dir('ansible') {
+              sh """
+                ansible-playbook -i inventory.ini site.yml --tags deploy \\
+                  --extra-vars "jenkins_host='http://34.60.250.238:8081/' jenkins_user='meriem' jenkins_token='${JENKINS_TOKEN}'"
+              """
+            }
+          }
+        }
+      }
+    }
+
 
     stage('Smoke Test') {
       when { branch 'main' }
