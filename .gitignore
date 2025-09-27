@@ -4,3 +4,9 @@
 *.token
 *.secret
 .env
+# K6 Performance Tests - Résultats à ignorer
+k6-performance-tests/results/*.json
+k6-performance-tests/results/*.xml
+k6-performance-tests/reports/*.html
+k6-performance-tests/reports/*.pdf
+k6-performance-tests/*.log
