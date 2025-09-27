@@ -1,14 +1,16 @@
 version: "3.9"
+
 services:
+
   web:
-    image: ${DOCKER_IMAGE}:${TAG}   # Jenkins pipeline will substitute these
+    image: ${DOCKER_IMAGE}:${TAG} # Jenkins pipeline will substitute these
     ports:
-      - "8080:3000"                 # VM port 8080 → container port 3000
+      - "8080:3000" # VM port 8080 → container port 3000
     environment:
       - NODE_ENV=production
       - METRICS_ENABLED=true
     env_file:
-      - ./app.env                   # optional, NEXT_PUBLIC_* vars etc.
+      - ./app.env # optional, NEXT_PUBLIC_* vars etc.
     restart: unless-stopped
     labels:
       - "prometheus.scrape=true"

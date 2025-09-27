@@ -1,0 +1,131 @@
+pipeline {
+  agent none
+  options { timestamps() }
+
+  environment {
+    DOCKER_IMAGE = 'zakariaimzilen/uir-devops2'
+    SONARQUBE_INSTALLATION = 'SonarQube'
+  }
+
+  stages {
+    stage('Checkout') {
+      agent { label 'linux' }
+      steps {
+        checkout scm
+        script { env.TAG = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim() }
+      }
+    }
+
+    stage('Install & Test (Node 20)') {
+      agent { docker { image 'node:20-alpine'; args '-u root' } }
+      steps {
+        sh '''
+          npm ci
+          npm test
+          npm run build
+        '''
+      }
+      post { always { junit 'reports/junit.xml' } }
+    }
+
+    stage('SonarQube Analysis') {
+      agent { label 'linux' }
+      steps {
+        script {
+          def scannerHome = tool 'SonarScanner'
+          withSonarQubeEnv("${SONARQUBE_INSTALLATION}") {
+            sh "${scannerHome}/bin/sonar-scanner"
+          }
+        }
+      }
+    }
+
+    stage('Quality Gate') {
+      steps {
+        timeout(time: 5, unit: 'MINUTES') {
+          script {
+            def qg = waitForQualityGate abortPipeline: true
+            if (qg.status != 'OK') error "Quality Gate: ${qg.status}"
+          }
+        }
+      }
+    }
+
+    stage('Docker Build & Push') {
+      agent { label 'linux' }
+      steps {
+        withCredentials([usernamePassword(credentialsId:'docker-creds', usernameVariable:'U', passwordVariable:'P')]) {
+          sh """
+            docker login -u "$U" -p "$P"
+            docker build -t ${DOCKER_IMAGE}:${TAG} -t ${DOCKER_IMAGE}:latest .
+            docker push ${DOCKER_IMAGE}:${TAG}
+            docker push ${DOCKER_IMAGE}:latest
+          """
+        }
+      }
+    }
+
+    stage('Deploy to VM') {
+      when { branch 'main' }
+      agent { label 'linux' }
+      steps {
+        sshagent(credentials: ['vm-ssh']) {
+          sh '''
+            set -e
+            VM_IP=$(cd terraform && terraform output -raw public_ip)
+            ssh -o StrictHostKeyChecking=no ubuntu@$VM_IP 'mkdir -p ~/ops'
+            scp -o StrictHostKeyChecking=no ops/app-compose.yml ubuntu@$VM_IP:~/ops/app-compose.yml
+            ssh -o StrictHostKeyChecking=no ubuntu@$VM_IP "export DOCKER_IMAGE='${DOCKER_IMAGE}' TAG='${TAG}'; docker compose -f ~/ops/app-compose.yml pull && docker compose -f ~/ops/app-compose.yml up -d"
+          '''
+        }
+      }
+    }
+
+    stage('API Tests (Postman/Newman)') {
+      when { branch 'main' }
+      agent { label 'linux' }
+      steps {
+        script {
+          def host = sh(script: "cd terraform && terraform output -raw public_ip", returnStdout: true).trim()
+          // Ensure folder exists and write environment JSON with interpolated baseUrl
+          sh 'mkdir -p tests/postman'
+          writeFile file: 'tests/postman/env.json', text: """
+          {
+            \"id\": \"jenkins-env\",
+            \"name\": \"Jenkins VM\",
+            \"values\": [
+              { \"key\": \"baseUrl\", \"value\": \"http://${host}:8082\", \"type\": \"text\", \"enabled\": true }
+            ],
+            \"_postman_variable_scope\": \"environment\"
+          }
+          """
+          // Run Newman via Docker, mounting the collection and env file; output JUnit to mounted dir
+          sh '''
+            set -e
+            docker run --rm -v "$PWD/tests/postman:/etc/newman" postman/newman:alpine \
+              run /etc/newman/DevOps-App.postman_collection.json \
+              -e /etc/newman/env.json \
+              -r cli,junit --reporter-junit-export /etc/newman/newman-results.xml
+          '''
+        }
+      }
+      post {
+        always {
+          junit 'tests/postman/newman-results.xml'
+          archiveArtifacts artifacts: 'tests/postman/newman-results.xml', fingerprint: true, onlyIfSuccessful: false
+        }
+      }
+    }
+
+    stage('Smoke Test') {
+      when { branch 'main' }
+      agent { label 'linux' }
+      steps {
+        script {
+          def host = sh(script: "cd terraform && terraform output -raw public_ip", returnStdout: true).trim()
+          sh "curl -fsS http://${host}:8082/api/health | grep -q 'ok'"
+        }
+      }
+    }
+  }
+}

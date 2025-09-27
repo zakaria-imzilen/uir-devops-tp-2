@@ -1,0 +1,41 @@
+=== Rapport du test Selenium ===
+Date de création : 2025-09-26 16:54:31
+
+Étape 1: Clique sur lien 1 -> OK
+Étape 2: Clique sur lien 2 -> OK
+Étape 3: Remplir email -> OK
+Étape 4: Remplir password -> OK
+Étape 5: Clique bouton login -> OK
+Étape 6: Clique lien suivant -> OK
+Étape 7: Remplir app name -> OK
+Étape 8: Clique bouton 3 -> OK
+Étape 9: Clique bouton 1 -> OK
+Étape 10: Clique lien édition -> KO
+  Erreur : Message: no such element: Unable to locate element: {"method":"xpath","selector":"/html/body/div[3]/div[7]/main/div[2]/div[1]/div[2]/div[2]/div/a[1]"}
+  (Session info: chrome=140.0.7339.208); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#nosuchelementexception
+Stacktrace:
+	GetHandleVerifier [0x0x7ff77f471eb5+80197]
+	GetHandleVerifier [0x0x7ff77f471f10+80288]
+	(No symbol) [0x0x7ff77f1f02fa]
+	(No symbol) [0x0x7ff77f247cd7]
+	(No symbol) [0x0x7ff77f247f9c]
+	(No symbol) [0x0x7ff77f29ba87]
+	(No symbol) [0x0x7ff77f2703bf]
+	(No symbol) [0x0x7ff77f2987fb]
+	(No symbol) [0x0x7ff77f270153]
+	(No symbol) [0x0x7ff77f238b02]
+	(No symbol) [0x0x7ff77f2398d3]
+	GetHandleVerifier [0x0x7ff77f72e83d+2949837]
+	GetHandleVerifier [0x0x7ff77f728c6a+2926330]
+	GetHandleVerifier [0x0x7ff77f7486c7+3055959]
+	GetHandleVerifier [0x0x7ff77f48cfee+191102]
+	GetHandleVerifier [0x0x7ff77f4950af+224063]
+	GetHandleVerifier [0x0x7ff77f47af64+117236]
+	GetHandleVerifier [0x0x7ff77f47b119+117673]
+	GetHandleVerifier [0x0x7ff77f4610a8+11064]
+	BaseThreadInitThunk [0x0x7ff8e4b6e8d7+23]
+	RtlUserThreadStart [0x0x7ff8e5968d9c+44]
+
+  Screenshot : screenshots\erreur_etape_10.png
+
+Fin du test.
