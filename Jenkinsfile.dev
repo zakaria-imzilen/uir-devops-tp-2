@@ -3,13 +3,13 @@ pipeline {
   options { timestamps() }
 
   environment {
-    DOCKER_IMAGE = 'zakariaimzilen/uir-devops'
+    DOCKER_IMAGE = 'zakariaimzilen/uir-devops2'
     SONARQUBE_INSTALLATION = 'SonarQube'
   }
 
   stages {
     stage('Checkout') {
-      agent any
+      agent { label 'linux' }
       steps {
         checkout scm
         script { env.TAG = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim() }
@@ -17,7 +17,7 @@ pipeline {
     }
 
     stage('Install & Test (Node 20)') {
-      agent any
+      agent { docker { image 'node:20-alpine'; args '-u root' } }
       steps {
         sh '''
           npm ci
@@ -29,7 +29,7 @@ pipeline {
     }
 
     stage('SonarQube Analysis') {
-      agent any
+      agent { label 'linux' }
       steps {
         script {
           def scannerHome = tool 'SonarScanner'
@@ -44,7 +44,7 @@ pipeline {
       steps {
         timeout(time: 5, unit: 'MINUTES') {
           script {
-            def qg = waitForQualityGate()
+            def qg = waitForQualityGate abortPipeline: true
             if (qg.status != 'OK') error "Quality Gate: ${qg.status}"
           }
         }
@@ -52,7 +52,7 @@ pipeline {
     }
 
     stage('Docker Build & Push') {
-      agent any
+      agent { label 'linux' }
       steps {
         withCredentials([usernamePassword(credentialsId:'docker-creds', usernameVariable:'U', passwordVariable:'P')]) {
           sh """
@@ -67,7 +67,7 @@ pipeline {
 
     stage('Deploy to VM') {
       when { branch 'main' }
-      agent any
+      agent { label 'linux' }
       steps {
         sshagent(credentials: ['vm-ssh']) {
           sh '''
@@ -81,8 +81,45 @@ pipeline {
       }
     }
 
+    stage('API Tests (Postman/Newman)') {
+      when { branch 'main' }
+      agent { label 'linux' }
+      steps {
+        script {
+          def host = sh(script: "cd terraform && terraform output -raw public_ip", returnStdout: true).trim()
+          // Ensure folder exists and write environment JSON with interpolated baseUrl
+          sh 'mkdir -p tests/postman'
+          writeFile file: 'tests/postman/env.json', text: """
+          {
+            \"id\": \"jenkins-env\",
+            \"name\": \"Jenkins VM\",
+            \"values\": [
+              { \"key\": \"baseUrl\", \"value\": \"http://${host}:8082\", \"type\": \"text\", \"enabled\": true }
+            ],
+            \"_postman_variable_scope\": \"environment\"
+          }
+          """
+          // Run Newman via Docker, mounting the collection and env file; output JUnit to mounted dir
+          sh '''
+            set -e
+            docker run --rm -v "$PWD/tests/postman:/etc/newman" postman/newman:alpine \
+              run /etc/newman/DevOps-App.postman_collection.json \
+              -e /etc/newman/env.json \
+              -r cli,junit --reporter-junit-export /etc/newman/newman-results.xml
+          '''
+        }
+      }
+      post {
+        always {
+          junit 'tests/postman/newman-results.xml'
+          archiveArtifacts artifacts: 'tests/postman/newman-results.xml', fingerprint: true, onlyIfSuccessful: false
+        }
+      }
+    }
+
     stage('Smoke Test') {
       when { branch 'main' }
+      agent { label 'linux' }
       steps {
         script {
           def host = sh(script: "cd terraform && terraform output -raw public_ip", returnStdout: true).trim()
