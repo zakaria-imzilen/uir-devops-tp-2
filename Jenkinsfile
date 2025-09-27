@@ -86,7 +86,7 @@ pipeline {
       steps {
         script {
           def host = sh(script: "cd terraform && terraform output -raw public_ip", returnStdout: true).trim()
-          sh "curl -fsS http://${host}:8082/api/health | grep -q 'ok'"
+          sh "curl -fsS http://${host}:8080/api/health | grep -q 'ok'"
         }
       }
     }
