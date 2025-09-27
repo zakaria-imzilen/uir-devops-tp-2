@@ -10,7 +10,7 @@ scrape_configs:
     metrics_path: /api/metrics
     scrape_interval: 10s
     static_configs:
-      - targets: ["136.112.147.14:8080"]   # if app runs on VM directly
+      - targets: ["34.134.250.210:8080"]   # if app runs on VM directly
 
   - job_name: "jenkins"
     metrics_path: /prometheus
