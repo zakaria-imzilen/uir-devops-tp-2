@@ -1,1 +1,1 @@
-gcpvm ansible_host=34.60.250.238 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/google_compute_engine
+gcpvm ansible_host=34.134.250.210 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/google_compute_engine

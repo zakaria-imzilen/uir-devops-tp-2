@@ -1,0 +1,10 @@
+{
+  "id": "3b1f9fa4-4c6f-4d6b-9b7a-6f0b0a0d0000",
+  "name": "DevOps App - Template",
+  "values": [
+    { "key": "baseUrl", "value": "http://34.134.250.210:8082", "type": "text", "enabled": true }
+  ],
+  "_postman_variable_scope": "environment",
+  "_postman_exported_at": "2025-09-27T00:00:00.000Z",
+  "_postman_exported_using": "Cascade"
+}
