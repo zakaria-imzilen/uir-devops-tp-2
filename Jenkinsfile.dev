@@ -1,74 +1,93 @@
 pipeline {
-  agent any
+  agent none
+  options { timestamps() }
 
   environment {
-    // Set your Docker registry and image here
-    DOCKER_IMAGE = credentials('docker-image-name') // OR hardcode like 'youruser/uir-devops-app'
-    DOCKER_REGISTRY = credentials('docker-registry-url') // optional if using Docker Hub
-    DOCKER_USERNAME = credentials('docker-username')
-    DOCKER_PASSWORD = credentials('docker-password')
-    TAG = "dev-${env.BUILD_NUMBER}"
-  }
-
-  options {
-    timestamps()
-    ansiColor('xterm')
-    disableConcurrentBuilds()
-  }
-
-  triggers {
-    // Enable this after configuring the GitHub webhook for the dev branch
-    githubPush()
+    DOCKER_IMAGE = 'zakariaimzilen/uir-devops'
+    SONARQUBE_INSTALLATION = 'SonarQube'
   }
 
   stages {
     stage('Checkout') {
+      agent any
       steps {
         checkout scm
+        script { env.TAG = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim() }
       }
     }
 
-    stage('Build Docker image') {
+    stage('Install & Test (Node 20)') {
+      agent any
+      steps {
+        sh '''
+          npm ci
+          npm test
+          npm run build
+        '''
+      }
+      post { always { junit 'reports/junit.xml' } }
+    }
+
+    stage('SonarQube Analysis') {
+      agent any
       steps {
         script {
-          // Expect a Dockerfile in repo root or app/; adjust context and Dockerfile path as needed
-          def context = 'app'
+          def scannerHome = tool 'SonarScanner'
+          withSonarQubeEnv("${SONARQUBE_INSTALLATION}") {
+            sh "${scannerHome}/bin/sonar-scanner"
+          }
+        }
+      }
+    }
+
+    stage('Quality Gate') {
+      steps {
+        timeout(time: 5, unit: 'MINUTES') {
+          script {
+            def qg = waitForQualityGate()
+            if (qg.status != 'OK') error "Quality Gate: ${qg.status}"
+          }
+        }
+      }
+    }
+
+    stage('Docker Build & Push') {
+      agent any
+      steps {
+        withCredentials([usernamePassword(credentialsId:'docker-creds', usernameVariable:'U', passwordVariable:'P')]) {
           sh """
-            docker build -t ${DOCKER_IMAGE}:${TAG} ${context}
+            docker login -u "$U" -p "$P"
+            docker build -t ${DOCKER_IMAGE}:${TAG} -t ${DOCKER_IMAGE}:latest .
+            docker push ${DOCKER_IMAGE}:${TAG}
+            docker push ${DOCKER_IMAGE}:latest
           """
         }
       }
     }
 
-    stage('Login & Push (optional)') {
-      when { expression { return env.DOCKER_USERNAME?.trim() && env.DOCKER_PASSWORD?.trim() } }
+    stage('Deploy to VM') {
+      when { branch 'main' }
+      agent any
       steps {
-        sh """
-          echo ${DOCKER_PASSWORD} | docker login ${DOCKER_REGISTRY} -u ${DOCKER_USERNAME} --password-stdin || \
-            echo "Login skipped (registry may be Docker Hub or creds not set)"
-          docker push ${DOCKER_IMAGE}:${TAG}
-        """
-      }
-    }
-
-    stage('Deploy DEV via Compose') {
-      steps {
-        dir('ops') {
-          withEnv(["DOCKER_IMAGE=${env.DOCKER_IMAGE}", "TAG=${env.TAG}"]) {
-            sh """
-              docker compose -f dev-compose.yml pull || true
-              docker compose -f dev-compose.yml up -d
-            """
-          }
+        sshagent(credentials: ['vm-ssh']) {
+          sh '''
+            set -e
+            VM_IP=$(cd terraform && terraform output -raw public_ip)
+            ssh -o StrictHostKeyChecking=no ubuntu@$VM_IP 'mkdir -p ~/ops'
+            scp -o StrictHostKeyChecking=no ops/app-compose.yml ubuntu@$VM_IP:~/ops/app-compose.yml
+            ssh -o StrictHostKeyChecking=no ubuntu@$VM_IP "export DOCKER_IMAGE='${DOCKER_IMAGE}' TAG='${TAG}'; docker compose -f ~/ops/app-compose.yml pull && docker compose -f ~/ops/app-compose.yml up -d"
+          '''
         }
       }
     }
-  }
 
-  post {
-    always {
-      script {
-        echo "Deployed DEV: ${DOCKER_IMAGE}:${TAG} on port 8082"
+    stage('Smoke Test') {
+      when { branch 'main' }
+      steps {
+        script {
+          def host = sh(script: "cd terraform && terraform output -raw public_ip", returnStdout: true).trim()
+          sh "curl -fsS http://${host}:8080/api/health | grep -q 'ok'"
+        }
       }
     }
   }
