@@ -65,6 +65,35 @@ pipeline {
         }
       }
     }
+    
+    pipeline {
+    agent any
+
+    stages {
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    sh 'docker build -t uir-devops-tp-2:latest .'
+                }
+            }
+        }
+
+        stage('Security Scan') {
+            steps {
+                script {
+                    // Scan avec Trivy
+                    sh '''
+                    docker run --rm -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/aquasecurity/trivy:latest image --severity HIGH,CRITICAL --exit-code 1 uir-devops-tp-2:latest
+
+                }
+            }
+          }
+        }
+
+        
+
+    
+
 
     stage('Deploy to VM') {
       when { branch 'main' }
