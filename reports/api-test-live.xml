@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="FlowCraft Studio API" tests="10" time="0.000">
+  <testsuite name="Health Check / Get Health Status" id="e74a1d7e-6abb-4c23-b1e3-966d219f9ec4" timestamp="2025-09-27T11:18:40.368Z" tests="4" failures="4" errors="1" time="0.000">
+    <system-err><![CDATA[Iteration: 0
+RequestError: Error: getaddrinfo ENOTFOUND {{base_url}}
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:120:26)
+
+---
+]]></system-err>
+    <testcase name="Status code is 200" time="0.000" classname="FlowCraftStudioApi">
+      <failure type="AssertionFailure" message="expected { Object (id, _details, ...) } to have property 'code'">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: cc80843d-4a64-4c82-81ca-776fda9aa40a.]]>
+        <![CDATA[Collection name: FlowCraft Studio API.]]>
+        <![CDATA[Request name: Health Check / Get Health Status.]]>
+        <![CDATA[Test description: Status code is 200.]]>
+        <![CDATA[Error message: expected { Object (id, _details, ...) } to have property 'code'.]]>
+        <![CDATA[Stacktrace: AssertionError: expected { Object (id, _details, ...) } to have property 'code'
+   at Object.eval sandbox-script.js:1:1).]]>
+      </failure>
+    </testcase>
+    <testcase name="Response has correct structure" time="0.000" classname="FlowCraftStudioApi">
+      <failure type="AssertionFailure" message="&quot;undefined&quot; is not valid JSON">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: cc80843d-4a64-4c82-81ca-776fda9aa40a.]]>
+        <![CDATA[Collection name: FlowCraft Studio API.]]>
+        <![CDATA[Request name: Health Check / Get Health Status.]]>
+        <![CDATA[Test description: Response has correct structure.]]>
+        <![CDATA[Error message: "undefined" is not valid JSON.]]>
+        <![CDATA[Stacktrace: JSONError: "undefined" is not valid JSON
+   at Object.eval sandbox-script.js:2:1).]]>
+      </failure>
+    </testcase>
+    <testcase name="Service status is ok" time="0.000" classname="FlowCraftStudioApi">
+      <failure type="AssertionFailure" message="&quot;undefined&quot; is not valid JSON">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: cc80843d-4a64-4c82-81ca-776fda9aa40a.]]>
+        <![CDATA[Collection name: FlowCraft Studio API.]]>
+        <![CDATA[Request name: Health Check / Get Health Status.]]>
+        <![CDATA[Test description: Service status is ok.]]>
+        <![CDATA[Error message: "undefined" is not valid JSON.]]>
+        <![CDATA[Stacktrace: JSONError: "undefined" is not valid JSON
+   at Object.eval sandbox-script.js:3:1).]]>
+      </failure>
+    </testcase>
+    <testcase name="Response time is less than 1000ms" time="0.000" classname="FlowCraftStudioApi">
+      <failure type="AssertionFailure" message="expected undefined to be a number or a date">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: cc80843d-4a64-4c82-81ca-776fda9aa40a.]]>
+        <![CDATA[Collection name: FlowCraft Studio API.]]>
+        <![CDATA[Request name: Health Check / Get Health Status.]]>
+        <![CDATA[Test description: Response time is less than 1000ms.]]>
+        <![CDATA[Error message: expected undefined to be a number or a date.]]>
+        <![CDATA[Stacktrace: AssertionError: expected undefined to be a number or a date
+   at Object.eval sandbox-script.js:4:1).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Metrics / Get Prometheus Metrics" id="f8cc49ba-3e80-4ed3-9034-8f4149333388" timestamp="2025-09-27T11:18:40.368Z" tests="4" failures="4" errors="1" time="0.000">
+    <system-err><![CDATA[Iteration: 0
+RequestError: Error: getaddrinfo ENOTFOUND {{base_url}}
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:120:26)
+
+---
+]]></system-err>
+    <testcase name="Status code is 200" time="0.000" classname="FlowCraftStudioApi">
+      <failure type="AssertionFailure" message="expected { Object (id, _details, ...) } to have property 'code'">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: cc80843d-4a64-4c82-81ca-776fda9aa40a.]]>
+        <![CDATA[Collection name: FlowCraft Studio API.]]>
+        <![CDATA[Request name: Metrics / Get Prometheus Metrics.]]>
+        <![CDATA[Test description: Status code is 200.]]>
+        <![CDATA[Error message: expected { Object (id, _details, ...) } to have property 'code'.]]>
+        <![CDATA[Stacktrace: AssertionError: expected { Object (id, _details, ...) } to have property 'code'
+   at Object.eval sandbox-script.js:1:2).]]>
+      </failure>
+    </testcase>
+    <testcase name="Content-Type is text/plain" time="0.000" classname="FlowCraftStudioApi">
+      <failure type="AssertionFailure" message="the given combination of arguments (undefined and string) is invalid for this assertion. You can use an array, a map, an object, a set, a string, or a weakset instead of a string">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: cc80843d-4a64-4c82-81ca-776fda9aa40a.]]>
+        <![CDATA[Collection name: FlowCraft Studio API.]]>
+        <![CDATA[Request name: Metrics / Get Prometheus Metrics.]]>
+        <![CDATA[Test description: Content-Type is text/plain.]]>
+        <![CDATA[Error message: the given combination of arguments (undefined and string) is invalid for this assertion. You can use an array, a map, an object, a set, a string, or a weakset instead of a string.]]>
+        <![CDATA[Stacktrace: AssertionError: the given combination of arguments (undefined and string) is invalid for this assertion. You can use an array, a map, an object, a set, a string, or a weakset instead of a string
+   at Object.eval sandbox-script.js:2:2).]]>
+      </failure>
+    </testcase>
+    <testcase name="Response contains metrics data" time="0.000" classname="FlowCraftStudioApi">
+      <failure type="AssertionFailure" message="the given combination of arguments (undefined and string) is invalid for this assertion. You can use an array, a map, an object, a set, a string, or a weakset instead of a string">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: cc80843d-4a64-4c82-81ca-776fda9aa40a.]]>
+        <![CDATA[Collection name: FlowCraft Studio API.]]>
+        <![CDATA[Request name: Metrics / Get Prometheus Metrics.]]>
+        <![CDATA[Test description: Response contains metrics data.]]>
+        <![CDATA[Error message: the given combination of arguments (undefined and string) is invalid for this assertion. You can use an array, a map, an object, a set, a string, or a weakset instead of a string.]]>
+        <![CDATA[Stacktrace: AssertionError: the given combination of arguments (undefined and string) is invalid for this assertion. You can use an array, a map, an object, a set, a string, or a weakset instead of a string
+   at Object.eval sandbox-script.js:3:2).]]>
+      </failure>
+    </testcase>
+    <testcase name="Response time is less than 2000ms" time="0.000" classname="FlowCraftStudioApi">
+      <failure type="AssertionFailure" message="expected undefined to be a number or a date">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: cc80843d-4a64-4c82-81ca-776fda9aa40a.]]>
+        <![CDATA[Collection name: FlowCraft Studio API.]]>
+        <![CDATA[Request name: Metrics / Get Prometheus Metrics.]]>
+        <![CDATA[Test description: Response time is less than 2000ms.]]>
+        <![CDATA[Error message: expected undefined to be a number or a date.]]>
+        <![CDATA[Stacktrace: AssertionError: expected undefined to be a number or a date
+   at Object.eval sandbox-script.js:4:2).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Apps Management / Get All Apps" id="83086d0a-d582-4018-a1fa-01f1e5346396" timestamp="2025-09-27T11:18:40.368Z" tests="2" failures="2" errors="1" time="0.000">
+    <system-err><![CDATA[Iteration: 0
+RequestError: Error: getaddrinfo ENOTFOUND {{base_url}}
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:120:26)
+
+---
+]]></system-err>
+    <testcase name="Status code is 200 or 401" time="0.000" classname="FlowCraftStudioApi">
+      <failure type="AssertionFailure" message="expected undefined to be one of [ 200, 401 ]">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: cc80843d-4a64-4c82-81ca-776fda9aa40a.]]>
+        <![CDATA[Collection name: FlowCraft Studio API.]]>
+        <![CDATA[Request name: Apps Management / Get All Apps.]]>
+        <![CDATA[Test description: Status code is 200 or 401.]]>
+        <![CDATA[Error message: expected undefined to be one of [ 200, 401 ].]]>
+        <![CDATA[Stacktrace: AssertionError: expected undefined to be one of [ 200, 401 ]
+   at Object.eval sandbox-script.js:1:3).]]>
+      </failure>
+    </testcase>
+    <testcase name="Response time is less than 3000ms" time="0.000" classname="FlowCraftStudioApi">
+      <failure type="AssertionFailure" message="expected undefined to be a number or a date">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: cc80843d-4a64-4c82-81ca-776fda9aa40a.]]>
+        <![CDATA[Collection name: FlowCraft Studio API.]]>
+        <![CDATA[Request name: Apps Management / Get All Apps.]]>
+        <![CDATA[Test description: Response time is less than 3000ms.]]>
+        <![CDATA[Error message: expected undefined to be a number or a date.]]>
+        <![CDATA[Stacktrace: AssertionError: expected undefined to be a number or a date
+   at Object.eval sandbox-script.js:2:3).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Apps Management / Create New App" id="14eaffde-109b-45c2-a118-948e72ea0962" timestamp="2025-09-27T11:18:40.368Z" tests="2" failures="2" errors="1" time="0.000">
+    <system-err><![CDATA[Iteration: 0
+RequestError: Error: getaddrinfo ENOTFOUND {{base_url}}
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:120:26)
+
+---
+]]></system-err>
+    <testcase name="Status code is 201 or 401" time="0.000" classname="FlowCraftStudioApi">
+      <failure type="AssertionFailure" message="expected undefined to be one of [ 201, 401 ]">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: cc80843d-4a64-4c82-81ca-776fda9aa40a.]]>
+        <![CDATA[Collection name: FlowCraft Studio API.]]>
+        <![CDATA[Request name: Apps Management / Create New App.]]>
+        <![CDATA[Test description: Status code is 201 or 401.]]>
+        <![CDATA[Error message: expected undefined to be one of [ 201, 401 ].]]>
+        <![CDATA[Stacktrace: AssertionError: expected undefined to be one of [ 201, 401 ]
+   at Object.eval sandbox-script.js:1:4).]]>
+      </failure>
+    </testcase>
+    <testcase name="Response time is less than 3000ms" time="0.000" classname="FlowCraftStudioApi">
+      <failure type="AssertionFailure" message="expected undefined to be a number or a date">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: cc80843d-4a64-4c82-81ca-776fda9aa40a.]]>
+        <![CDATA[Collection name: FlowCraft Studio API.]]>
+        <![CDATA[Request name: Apps Management / Create New App.]]>
+        <![CDATA[Test description: Response time is less than 3000ms.]]>
+        <![CDATA[Error message: expected undefined to be a number or a date.]]>
+        <![CDATA[Stacktrace: AssertionError: expected undefined to be a number or a date
+   at Object.eval sandbox-script.js:2:4).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Apps Management / Get App by ID" id="485eaa76-71db-4b74-b141-e1844e92fe4a" timestamp="2025-09-27T11:18:40.368Z" tests="2" failures="2" errors="1" time="0.000">
+    <system-err><![CDATA[Iteration: 0
+RequestError: Error: getaddrinfo ENOTFOUND {{base_url}}
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:120:26)
+
+---
+]]></system-err>
+    <testcase name="Status code is 200, 401, or 404" time="0.000" classname="FlowCraftStudioApi">
+      <failure type="AssertionFailure" message="expected undefined to be one of [ 200, 401, 404 ]">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: cc80843d-4a64-4c82-81ca-776fda9aa40a.]]>
+        <![CDATA[Collection name: FlowCraft Studio API.]]>
+        <![CDATA[Request name: Apps Management / Get App by ID.]]>
+        <![CDATA[Test description: Status code is 200, 401, or 404.]]>
+        <![CDATA[Error message: expected undefined to be one of [ 200, 401, 404 ].]]>
+        <![CDATA[Stacktrace: AssertionError: expected undefined to be one of [ 200, 401, 404 ]
+   at Object.eval sandbox-script.js:1:5).]]>
+      </failure>
+    </testcase>
+    <testcase name="Response time is less than 3000ms" time="0.000" classname="FlowCraftStudioApi">
+      <failure type="AssertionFailure" message="expected undefined to be a number or a date">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: cc80843d-4a64-4c82-81ca-776fda9aa40a.]]>
+        <![CDATA[Collection name: FlowCraft Studio API.]]>
+        <![CDATA[Request name: Apps Management / Get App by ID.]]>
+        <![CDATA[Test description: Response time is less than 3000ms.]]>
+        <![CDATA[Error message: expected undefined to be a number or a date.]]>
+        <![CDATA[Stacktrace: AssertionError: expected undefined to be a number or a date
+   at Object.eval sandbox-script.js:2:5).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Apps Management / Update App" id="636e6f44-a803-4153-8b48-80012de66e69" timestamp="2025-09-27T11:18:40.368Z" tests="2" failures="2" errors="1" time="0.000">
+    <system-err><![CDATA[Iteration: 0
+RequestError: Error: getaddrinfo ENOTFOUND {{base_url}}
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:120:26)
+
+---
+]]></system-err>
+    <testcase name="Status code is 200, 401, or 404" time="0.000" classname="FlowCraftStudioApi">
+      <failure type="AssertionFailure" message="expected undefined to be one of [ 200, 401, 404 ]">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: cc80843d-4a64-4c82-81ca-776fda9aa40a.]]>
+        <![CDATA[Collection name: FlowCraft Studio API.]]>
+        <![CDATA[Request name: Apps Management / Update App.]]>
+        <![CDATA[Test description: Status code is 200, 401, or 404.]]>
+        <![CDATA[Error message: expected undefined to be one of [ 200, 401, 404 ].]]>
+        <![CDATA[Stacktrace: AssertionError: expected undefined to be one of [ 200, 401, 404 ]
+   at Object.eval sandbox-script.js:1:6).]]>
+      </failure>
+    </testcase>
+    <testcase name="Response time is less than 3000ms" time="0.000" classname="FlowCraftStudioApi">
+      <failure type="AssertionFailure" message="expected undefined to be a number or a date">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: cc80843d-4a64-4c82-81ca-776fda9aa40a.]]>
+        <![CDATA[Collection name: FlowCraft Studio API.]]>
+        <![CDATA[Request name: Apps Management / Update App.]]>
+        <![CDATA[Test description: Response time is less than 3000ms.]]>
+        <![CDATA[Error message: expected undefined to be a number or a date.]]>
+        <![CDATA[Stacktrace: AssertionError: expected undefined to be a number or a date
+   at Object.eval sandbox-script.js:2:6).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Apps Management / Delete App" id="025692fe-b616-463a-8bce-ca716cb9c1d1" timestamp="2025-09-27T11:18:40.368Z" tests="2" failures="2" errors="1" time="0.000">
+    <system-err><![CDATA[Iteration: 0
+RequestError: Error: getaddrinfo ENOTFOUND {{base_url}}
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:120:26)
+
+---
+]]></system-err>
+    <testcase name="Status code is 200, 401, or 500" time="0.000" classname="FlowCraftStudioApi">
+      <failure type="AssertionFailure" message="expected undefined to be one of [ 200, 401, 500 ]">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: cc80843d-4a64-4c82-81ca-776fda9aa40a.]]>
+        <![CDATA[Collection name: FlowCraft Studio API.]]>
+        <![CDATA[Request name: Apps Management / Delete App.]]>
+        <![CDATA[Test description: Status code is 200, 401, or 500.]]>
+        <![CDATA[Error message: expected undefined to be one of [ 200, 401, 500 ].]]>
+        <![CDATA[Stacktrace: AssertionError: expected undefined to be one of [ 200, 401, 500 ]
+   at Object.eval sandbox-script.js:1:7).]]>
+      </failure>
+    </testcase>
+    <testcase name="Response time is less than 3000ms" time="0.000" classname="FlowCraftStudioApi">
+      <failure type="AssertionFailure" message="expected undefined to be a number or a date">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: cc80843d-4a64-4c82-81ca-776fda9aa40a.]]>
+        <![CDATA[Collection name: FlowCraft Studio API.]]>
+        <![CDATA[Request name: Apps Management / Delete App.]]>
+        <![CDATA[Test description: Response time is less than 3000ms.]]>
+        <![CDATA[Error message: expected undefined to be a number or a date.]]>
+        <![CDATA[Stacktrace: AssertionError: expected undefined to be a number or a date
+   at Object.eval sandbox-script.js:2:7).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Authentication / Auth Confirm (GET)" id="95f9fdf2-81e8-48a0-bcdf-b71bd0c4a810" timestamp="2025-09-27T11:18:40.368Z" tests="2" failures="2" errors="1" time="0.000">
+    <system-err><![CDATA[Iteration: 0
+RequestError: Error: getaddrinfo ENOTFOUND {{base_url}}
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:120:26)
+
+---
+]]></system-err>
+    <testcase name="Status code is 302 (redirect)" time="0.000" classname="FlowCraftStudioApi">
+      <failure type="AssertionFailure" message="expected undefined to deeply equal 302">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: cc80843d-4a64-4c82-81ca-776fda9aa40a.]]>
+        <![CDATA[Collection name: FlowCraft Studio API.]]>
+        <![CDATA[Request name: Authentication / Auth Confirm (GET).]]>
+        <![CDATA[Test description: Status code is 302 (redirect).]]>
+        <![CDATA[Error message: expected undefined to deeply equal 302.]]>
+        <![CDATA[Stacktrace: AssertionError: expected undefined to deeply equal 302
+   at Object.eval sandbox-script.js:1:8).]]>
+      </failure>
+    </testcase>
+    <testcase name="Response time is less than 2000ms" time="0.000" classname="FlowCraftStudioApi">
+      <failure type="AssertionFailure" message="expected undefined to be a number or a date">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: cc80843d-4a64-4c82-81ca-776fda9aa40a.]]>
+        <![CDATA[Collection name: FlowCraft Studio API.]]>
+        <![CDATA[Request name: Authentication / Auth Confirm (GET).]]>
+        <![CDATA[Test description: Response time is less than 2000ms.]]>
+        <![CDATA[Error message: expected undefined to be a number or a date.]]>
+        <![CDATA[Stacktrace: AssertionError: expected undefined to be a number or a date
+   at Object.eval sandbox-script.js:2:8).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Error Handling Tests / Test Invalid App Creation" id="db9f1e0c-9eef-4e77-83f3-d2a34d0d74bf" timestamp="2025-09-27T11:18:40.368Z" tests="3" failures="3" errors="1" time="0.000">
+    <system-err><![CDATA[Iteration: 0
+RequestError: Error: getaddrinfo ENOTFOUND {{base_url}}
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:120:26)
+
+---
+]]></system-err>
+    <testcase name="Status code is 400 or 401" time="0.000" classname="FlowCraftStudioApi">
+      <failure type="AssertionFailure" message="expected undefined to be one of [ 400, 401 ]">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: cc80843d-4a64-4c82-81ca-776fda9aa40a.]]>
+        <![CDATA[Collection name: FlowCraft Studio API.]]>
+        <![CDATA[Request name: Error Handling Tests / Test Invalid App Creation.]]>
+        <![CDATA[Test description: Status code is 400 or 401.]]>
+        <![CDATA[Error message: expected undefined to be one of [ 400, 401 ].]]>
+        <![CDATA[Stacktrace: AssertionError: expected undefined to be one of [ 400, 401 ]
+   at Object.eval sandbox-script.js:1:9).]]>
+      </failure>
+    </testcase>
+    <testcase name="Response has error message" time="0.000" classname="FlowCraftStudioApi">
+      <failure type="AssertionFailure" message="&quot;undefined&quot; is not valid JSON">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: cc80843d-4a64-4c82-81ca-776fda9aa40a.]]>
+        <![CDATA[Collection name: FlowCraft Studio API.]]>
+        <![CDATA[Request name: Error Handling Tests / Test Invalid App Creation.]]>
+        <![CDATA[Test description: Response has error message.]]>
+        <![CDATA[Error message: "undefined" is not valid JSON.]]>
+        <![CDATA[Stacktrace: JSONError: "undefined" is not valid JSON
+   at Object.eval sandbox-script.js:2:9).]]>
+      </failure>
+    </testcase>
+    <testcase name="Response time is less than 3000ms" time="0.000" classname="FlowCraftStudioApi">
+      <failure type="AssertionFailure" message="expected undefined to be a number or a date">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: cc80843d-4a64-4c82-81ca-776fda9aa40a.]]>
+        <![CDATA[Collection name: FlowCraft Studio API.]]>
+        <![CDATA[Request name: Error Handling Tests / Test Invalid App Creation.]]>
+        <![CDATA[Test description: Response time is less than 3000ms.]]>
+        <![CDATA[Error message: expected undefined to be a number or a date.]]>
+        <![CDATA[Stacktrace: AssertionError: expected undefined to be a number or a date
+   at Object.eval sandbox-script.js:3:9).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Error Handling Tests / Test Nonexistent App Access" id="899458b3-2236-4c0d-8378-0ee13e9862a2" timestamp="2025-09-27T11:18:40.368Z" tests="3" failures="3" errors="1" time="0.000">
+    <system-err><![CDATA[Iteration: 0
+RequestError: Error: getaddrinfo ENOTFOUND {{base_url}}
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:120:26)
+
+---
+]]></system-err>
+    <testcase name="Status code is 404 or 401" time="0.000" classname="FlowCraftStudioApi">
+      <failure type="AssertionFailure" message="expected undefined to be one of [ 404, 401 ]">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: cc80843d-4a64-4c82-81ca-776fda9aa40a.]]>
+        <![CDATA[Collection name: FlowCraft Studio API.]]>
+        <![CDATA[Request name: Error Handling Tests / Test Nonexistent App Access.]]>
+        <![CDATA[Test description: Status code is 404 or 401.]]>
+        <![CDATA[Error message: expected undefined to be one of [ 404, 401 ].]]>
+        <![CDATA[Stacktrace: AssertionError: expected undefined to be one of [ 404, 401 ]
+   at Object.eval sandbox-script.js:1:10).]]>
+      </failure>
+    </testcase>
+    <testcase name="Response has error message" time="0.000" classname="FlowCraftStudioApi">
+      <failure type="AssertionFailure" message="&quot;undefined&quot; is not valid JSON">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: cc80843d-4a64-4c82-81ca-776fda9aa40a.]]>
+        <![CDATA[Collection name: FlowCraft Studio API.]]>
+        <![CDATA[Request name: Error Handling Tests / Test Nonexistent App Access.]]>
+        <![CDATA[Test description: Response has error message.]]>
+        <![CDATA[Error message: "undefined" is not valid JSON.]]>
+        <![CDATA[Stacktrace: JSONError: "undefined" is not valid JSON
+   at Object.eval sandbox-script.js:2:10).]]>
+      </failure>
+    </testcase>
+    <testcase name="Response time is less than 3000ms" time="0.000" classname="FlowCraftStudioApi">
+      <failure type="AssertionFailure" message="expected undefined to be a number or a date">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: cc80843d-4a64-4c82-81ca-776fda9aa40a.]]>
+        <![CDATA[Collection name: FlowCraft Studio API.]]>
+        <![CDATA[Request name: Error Handling Tests / Test Nonexistent App Access.]]>
+        <![CDATA[Test description: Response time is less than 3000ms.]]>
+        <![CDATA[Error message: expected undefined to be a number or a date.]]>
+        <![CDATA[Stacktrace: AssertionError: expected undefined to be a number or a date
+   at Object.eval sandbox-script.js:3:10).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+</testsuites>

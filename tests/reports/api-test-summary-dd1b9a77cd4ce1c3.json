@@ -1,0 +1,89 @@
+{
+  "reportId": "dd1b9a77cd4ce1c3",
+  "timestamp": "2025-09-27T11:20:26.132Z",
+  "environment": "staging",
+  "testRun": {
+    "totalTests": 15,
+    "passedTests": 13,
+    "failedTests": 2,
+    "skippedTests": 0,
+    "duration": 45000,
+    "successRate": 87
+  },
+  "endpoints": [
+    {
+      "method": "GET",
+      "path": "/api/health",
+      "status": "pass",
+      "responseTime": 45
+    },
+    {
+      "method": "GET",
+      "path": "/api/metrics",
+      "status": "pass",
+      "responseTime": 67
+    },
+    {
+      "method": "GET",
+      "path": "/api/apps",
+      "status": "fail",
+      "responseTime": 1200
+    },
+    {
+      "method": "POST",
+      "path": "/api/apps/create",
+      "status": "pass",
+      "responseTime": 234
+    },
+    {
+      "method": "PUT",
+      "path": "/api/apps/{id}/update",
+      "status": "pass",
+      "responseTime": 189
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/apps/{id}/delete",
+      "status": "pass",
+      "responseTime": 156
+    }
+  ],
+  "performance": {
+    "averageResponseTime": 298,
+    "maxResponseTime": 1200,
+    "minResponseTime": 45,
+    "p95ResponseTime": 890,
+    "slowEndpoints": [
+      {
+        "path": "/api/apps",
+        "responseTime": 1200
+      }
+    ]
+  },
+  "errors": {
+    "authenticationErrors": 0,
+    "validationErrors": 1,
+    "serverErrors": 0,
+    "timeoutErrors": 0,
+    "networkErrors": 0
+  },
+  "trends": {
+    "successRateTrend": "stable",
+    "performanceTrend": "improving",
+    "errorRateTrend": "decreasing"
+  },
+  "recommendations": [
+    {
+      "title": "Optimize Database Queries",
+      "description": "The /api/apps endpoint is showing high response times. Consider implementing database query optimization and caching."
+    },
+    {
+      "title": "Add Request Rate Limiting",
+      "description": "Implement rate limiting to protect against abuse and improve overall API performance."
+    },
+    {
+      "title": "Enhance Error Handling",
+      "description": "Add more comprehensive error handling and user-friendly error messages."
+    }
+  ]
+}

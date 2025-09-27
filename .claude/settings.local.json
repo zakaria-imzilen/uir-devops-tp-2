@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(chmod:*)",
+      "Bash(npm install)",
+      "Bash(npm install:*)",
+      "Bash(npx newman:*)",
+      "Bash(node:*)",
+      "Bash(./cleanup-script.sh:*)",
+      "Bash(npm run test:api:*)",
+      "Bash(./run-tests.sh:*)",
+      "Bash(npm ci:*)",
+      "Bash(./validate-api-testing.sh:*)",
+      "Bash(curl:*)",
+      "Bash(newman run:*)",
+      "Bash(git checkout:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

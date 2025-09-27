@@ -21,11 +21,48 @@ pipeline {
       steps {
         sh '''
           npm ci
+          cd app && npm ci
           npm test
           npm run build
         '''
       }
       post { always { junit 'reports/junit.xml' } }
+    }
+
+    stage('API Tests (Local)') {
+      agent any
+      steps {
+        sh '''
+          npm install -g newman newman-reporter-html
+          mkdir -p reports
+          cd app && npm run dev &
+          APP_PID=$!
+          echo "Waiting for app to start..."
+          sleep 30
+
+          # Run API tests against local instance
+          npm run test:api || TEST_RESULT=$?
+
+          # Stop the development server
+          kill $APP_PID || true
+
+          # Exit with test result
+          exit ${TEST_RESULT:-0}
+        '''
+      }
+      post {
+        always {
+          junit 'reports/api-test-results.xml'
+          publishHTML([
+            allowMissing: false,
+            alwaysLinkToLastBuild: true,
+            keepAll: true,
+            reportDir: 'reports',
+            reportFiles: 'api-test-report.html',
+            reportName: 'API Test Report (Local)'
+          ])
+        }
+      }
     }
 
     stage('SonarQube Analysis') {
@@ -88,6 +125,53 @@ pipeline {
         script {
           def host = sh(script: "cd terraform && terraform output -raw public_ip", returnStdout: true).trim()
           sh "curl -fsS http://${host}:8080/api/health | grep -q 'ok'"
+        }
+      }
+    }
+
+    stage('API Tests (Staging)') {
+      when { branch 'main' }
+      agent any
+      steps {
+        script {
+          def host = sh(script: "cd terraform && terraform output -raw public_ip", returnStdout: true).trim()
+          sh """
+            # Wait for deployment to be fully ready
+            echo "Waiting for application to be fully ready..."
+            sleep 60
+
+            # Run comprehensive API tests against staging
+            export VM_IP=${host}
+            npm run test:api:ci || TEST_RESULT=\$?
+
+            exit \${TEST_RESULT:-0}
+          """
+        }
+      }
+      post {
+        always {
+          junit 'reports/api-test-results.xml'
+          publishHTML([
+            allowMissing: false,
+            alwaysLinkToLastBuild: true,
+            keepAll: true,
+            reportDir: 'reports',
+            reportFiles: 'api-test-report.html',
+            reportName: 'API Test Report (Staging)'
+          ])
+        }
+        failure {
+          emailext (
+            subject: "API Tests Failed - ${env.JOB_NAME} - ${env.BUILD_NUMBER}",
+            body: """
+              API tests failed for build ${env.BUILD_NUMBER} of ${env.JOB_NAME}.
+
+              Check the test report at: ${env.BUILD_URL}API_20Test_20Report_20_28Staging_29/
+
+              Jenkins Build: ${env.BUILD_URL}
+            """,
+            to: "${env.CHANGE_AUTHOR_EMAIL ?: 'devops@example.com'}"
+          )
         }
       }
     }

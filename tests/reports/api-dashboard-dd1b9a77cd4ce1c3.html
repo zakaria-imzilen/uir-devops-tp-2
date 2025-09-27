@@ -1,0 +1,278 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowCraft Studio API Test Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 30px;
+        }
+        .metric-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            border-left: 4px solid #007bff;
+        }
+        .metric-card.success {
+            border-left-color: #28a745;
+        }
+        .metric-card.warning {
+            border-left-color: #ffc107;
+        }
+        .metric-card.danger {
+            border-left-color: #dc3545;
+        }
+        .metric-value {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .metric-label {
+            color: #6c757d;
+            text-transform: uppercase;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+        }
+        .section {
+            padding: 30px;
+            border-top: 1px solid #e9ecef;
+        }
+        .section h2 {
+            margin-top: 0;
+            color: #495057;
+        }
+        .endpoint-list {
+            display: grid;
+            gap: 15px;
+        }
+        .endpoint-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .endpoint-method {
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+        .method-get { background: #e3f2fd; color: #1976d2; }
+        .method-post { background: #e8f5e8; color: #388e3c; }
+        .method-put { background: #fff3e0; color: #f57c00; }
+        .method-delete { background: #ffebee; color: #d32f2f; }
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        .status-pass {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-fail {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .chart-container {
+            height: 300px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .recommendations {
+            background: #e7f3ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .recommendation-item {
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 4px;
+            border-left: 4px solid #007bff;
+        }
+        .footer {
+            background: #343a40;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>API Test Dashboard</h1>
+            <p>FlowCraft Studio - Environment: staging</p>
+            <p>Generated: 9/27/2025, 1:20:26 PM</p>
+        </div>
+
+        <div class="metrics">
+            <div class="metric-card success">
+                <div class="metric-value">13</div>
+                <div class="metric-label">Tests Passed</div>
+            </div>
+            <div class="metric-card danger">
+                <div class="metric-value">2</div>
+                <div class="metric-label">Tests Failed</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">15</div>
+                <div class="metric-label">Total Tests</div>
+            </div>
+            <div class="metric-card warning">
+                <div class="metric-value">87%</div>
+                <div class="metric-label">Success Rate</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Endpoint Test Results</h2>
+            <div class="endpoint-list">
+                
+            <div class="endpoint-item">
+                <div>
+                    <span class="endpoint-method method-get">GET</span>
+                    <strong>/api/health</strong>
+                </div>
+                <div>
+                    <span class="status-badge status-pass">pass</span>
+                    <span style="margin-left: 10px;">45ms</span>
+                </div>
+            </div>
+        
+            <div class="endpoint-item">
+                <div>
+                    <span class="endpoint-method method-get">GET</span>
+                    <strong>/api/metrics</strong>
+                </div>
+                <div>
+                    <span class="status-badge status-pass">pass</span>
+                    <span style="margin-left: 10px;">67ms</span>
+                </div>
+            </div>
+        
+            <div class="endpoint-item">
+                <div>
+                    <span class="endpoint-method method-get">GET</span>
+                    <strong>/api/apps</strong>
+                </div>
+                <div>
+                    <span class="status-badge status-fail">fail</span>
+                    <span style="margin-left: 10px;">1200ms</span>
+                </div>
+            </div>
+        
+            <div class="endpoint-item">
+                <div>
+                    <span class="endpoint-method method-post">POST</span>
+                    <strong>/api/apps/create</strong>
+                </div>
+                <div>
+                    <span class="status-badge status-pass">pass</span>
+                    <span style="margin-left: 10px;">234ms</span>
+                </div>
+            </div>
+        
+            <div class="endpoint-item">
+                <div>
+                    <span class="endpoint-method method-put">PUT</span>
+                    <strong>/api/apps/{id}/update</strong>
+                </div>
+                <div>
+                    <span class="status-badge status-pass">pass</span>
+                    <span style="margin-left: 10px;">189ms</span>
+                </div>
+            </div>
+        
+            <div class="endpoint-item">
+                <div>
+                    <span class="endpoint-method method-delete">DELETE</span>
+                    <strong>/api/apps/{id}/delete</strong>
+                </div>
+                <div>
+                    <span class="status-badge status-pass">pass</span>
+                    <span style="margin-left: 10px;">156ms</span>
+                </div>
+            </div>
+        
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Performance Metrics</h2>
+            <div class="chart-container">
+                <p>Average Response Time: 298ms</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Recommendations</h2>
+            <div class="recommendations">
+                
+                    <div class="recommendation-item">
+                        <strong>Optimize Database Queries</strong><br>
+                        The /api/apps endpoint is showing high response times. Consider implementing database query optimization and caching.
+                    </div>
+                
+                    <div class="recommendation-item">
+                        <strong>Add Request Rate Limiting</strong><br>
+                        Implement rate limiting to protect against abuse and improve overall API performance.
+                    </div>
+                
+                    <div class="recommendation-item">
+                        <strong>Enhance Error Handling</strong><br>
+                        Add more comprehensive error handling and user-friendly error messages.
+                    </div>
+                
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2024 FlowCraft Studio - API Test Report dd1b9a77cd4ce1c3</p>
+        </div>
+    </div>
+</body>
+</html>
