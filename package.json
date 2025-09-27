@@ -1,0 +1,31 @@
+{
+  "name": "uir-devops-tp-2",
+  "version": "1.0.0",
+  "description": "DevOps TP2 - FlowCraft Studio with comprehensive CI/CD pipeline",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test:unit && npm run test:api",
+    "test:unit": "cd app && npm test",
+    "test:api": "newman run tests/api/flowcraft-api.postman_collection.json -e tests/api/environments/local.postman_environment.json --reporters=cli,junit --reporter-junit-export=reports/api-test-results.xml",
+    "test:api:staging": "newman run tests/api/flowcraft-api.postman_collection.json -e tests/api/environments/staging.postman_environment.json --global-var VM_IP=$VM_IP --reporters=cli,junit --reporter-junit-export=reports/api-test-results.xml",
+    "test:api:ci": "newman run tests/api/flowcraft-api.postman_collection.json -e tests/api/environments/staging.postman_environment.json --global-var VM_IP=$VM_IP --reporters=cli,junit,html --reporter-junit-export=reports/api-test-results.xml --reporter-html-export=reports/api-test-report.html",
+    "install:newman": "npm install -g newman newman-reporter-html",
+    "build": "cd app && npm run build",
+    "start": "cd app && npm start",
+    "dev": "cd app && npm run dev"
+  },
+  "keywords": [
+    "devops",
+    "ci/cd",
+    "nextjs",
+    "api-testing",
+    "newman",
+    "postman"
+  ],
+  "author": "UIR DevOps Team",
+  "license": "MIT",
+  "devDependencies": {
+    "newman": "^5.3.2",
+    "newman-reporter-htmlextra": "^1.23.1"
+  }
+}

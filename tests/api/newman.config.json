@@ -1,0 +1,24 @@
+{
+  "collection": "flowcraft-api.postman_collection.json",
+  "environment": "environments/local.postman_environment.json",
+  "reporters": ["cli", "junit", "html"],
+  "reporter": {
+    "junit": {
+      "export": "../../reports/api-test-results.xml"
+    },
+    "html": {
+      "export": "../../reports/api-test-report.html",
+      "template": "dashboard"
+    }
+  },
+  "timeout": 120000,
+  "timeoutRequest": 30000,
+  "timeoutScript": 5000,
+  "delayRequest": 0,
+  "ignoreRedirects": false,
+  "insecure": false,
+  "bail": false,
+  "suppressExitCode": false,
+  "globalVar": [],
+  "envVar": []
+}

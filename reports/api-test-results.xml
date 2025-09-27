@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="FlowCraft Studio API" tests="10" time="4.016">
+  <testsuite name="Health Check / Get Health Status" id="d7a6943b-7a21-4701-a82c-e37575518419" timestamp="2025-09-27T11:38:52.983Z" tests="4" failures="0" errors="0" time="0.362">
+    <testcase name="Status code is 200" time="0.362" classname="HealthCheckGetHealthStatus"/>
+    <testcase name="Response has correct structure" time="0.362" classname="HealthCheckGetHealthStatus"/>
+    <testcase name="Service status is ok" time="0.362" classname="HealthCheckGetHealthStatus"/>
+    <testcase name="Response time is less than 1000ms" time="0.362" classname="HealthCheckGetHealthStatus"/>
+  </testsuite>
+  <testsuite name="Metrics / Get Prometheus Metrics" id="612ea2a1-e3f9-4574-bc79-dfa3cf3fb6b5" timestamp="2025-09-27T11:38:52.983Z" tests="4" failures="1" errors="0" time="0.329">
+    <testcase name="Status code is 200" time="0.329" classname="MetricsGetPrometheusMetrics"/>
+    <testcase name="Content-Type is text/plain" time="0.329" classname="MetricsGetPrometheusMetrics"/>
+    <testcase name="Response contains metrics data" time="0.329" classname="MetricsGetPrometheusMetrics">
+      <failure type="AssertionFailure" message="expected '# HELP active_users_total Number of a…' to include 'http_requests_total'">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 562a5e53-3f16-4c57-ac05-764a14179b49.]]>
+        <![CDATA[Collection name: FlowCraft Studio API.]]>
+        <![CDATA[Request name: Metrics / Get Prometheus Metrics.]]>
+        <![CDATA[Test description: Response contains metrics data.]]>
+        <![CDATA[Error message: expected '# HELP active_users_total Number of a…' to include 'http_requests_total'.]]>
+        <![CDATA[Stacktrace: AssertionError: expected '# HELP active_users_total Number of a…' to include 'http_requests_total'
+   at Object.eval sandbox-script.js:3:2).]]>
+      </failure>
+    </testcase>
+    <testcase name="Response time is less than 2000ms" time="0.329" classname="MetricsGetPrometheusMetrics"/>
+  </testsuite>
+  <testsuite name="Apps Management / Get All Apps" id="0ef35d7b-8898-425e-81d9-e2a661022160" timestamp="2025-09-27T11:38:52.983Z" tests="3" failures="0" errors="0" time="0.324">
+    <testcase name="Status code is 200 or 401" time="0.324" classname="AppsManagementGetAllApps"/>
+    <testcase name="Response has data property" time="0.324" classname="AppsManagementGetAllApps"/>
+    <testcase name="Response time is less than 3000ms" time="0.324" classname="AppsManagementGetAllApps"/>
+  </testsuite>
+  <testsuite name="Apps Management / Create New App" id="ba409dc4-65e3-415f-bcd3-0d68ec75983b" timestamp="2025-09-27T11:38:52.983Z" tests="4" failures="0" errors="0" time="0.324">
+    <testcase name="Status code is 201 or 401" time="0.324" classname="AppsManagementCreateNewApp"/>
+    <testcase name="Response has data property" time="0.324" classname="AppsManagementCreateNewApp"/>
+    <testcase name="App name matches request" time="0.324" classname="AppsManagementCreateNewApp"/>
+    <testcase name="Response time is less than 3000ms" time="0.324" classname="AppsManagementCreateNewApp"/>
+  </testsuite>
+  <testsuite name="Apps Management / Get App by ID" id="232e70da-94e4-4a02-8f7d-98414f43ea3d" timestamp="2025-09-27T11:38:52.983Z" tests="3" failures="0" errors="0" time="0.356">
+    <testcase name="Status code is 200, 401, or 404" time="0.356" classname="AppsManagementGetAppById"/>
+    <testcase name="Response has data property" time="0.356" classname="AppsManagementGetAppById"/>
+    <testcase name="Response time is less than 3000ms" time="0.356" classname="AppsManagementGetAppById"/>
+  </testsuite>
+  <testsuite name="Apps Management / Update App" id="637a43cb-b8bc-4fc0-b590-ea82deff1b1a" timestamp="2025-09-27T11:38:52.983Z" tests="2" failures="1" errors="0" time="0.474">
+    <testcase name="Status code is 200, 401, or 404" time="0.474" classname="AppsManagementUpdateApp">
+      <failure type="AssertionFailure" message="expected 500 to be one of [ 200, 401, 404 ]">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 562a5e53-3f16-4c57-ac05-764a14179b49.]]>
+        <![CDATA[Collection name: FlowCraft Studio API.]]>
+        <![CDATA[Request name: Apps Management / Update App.]]>
+        <![CDATA[Test description: Status code is 200, 401, or 404.]]>
+        <![CDATA[Error message: expected 500 to be one of [ 200, 401, 404 ].]]>
+        <![CDATA[Stacktrace: AssertionError: expected 500 to be one of [ 200, 401, 404 ]
+   at Object.eval sandbox-script.js:1:6).]]>
+      </failure>
+    </testcase>
+    <testcase name="Response time is less than 3000ms" time="0.474" classname="AppsManagementUpdateApp"/>
+  </testsuite>
+  <testsuite name="Apps Management / Delete App" id="43815800-4dee-422a-83b1-e427e008c214" timestamp="2025-09-27T11:38:52.983Z" tests="3" failures="0" errors="0" time="0.636">
+    <testcase name="Status code is 200, 401, or 500" time="0.636" classname="AppsManagementDeleteApp"/>
+    <testcase name="Server error response has error message" time="0.636" classname="AppsManagementDeleteApp"/>
+    <testcase name="Response time is less than 3000ms" time="0.636" classname="AppsManagementDeleteApp"/>
+  </testsuite>
+  <testsuite name="Authentication / Auth Confirm (GET)" id="61985957-8e30-476d-9b62-2bf45d217b48" timestamp="2025-09-27T11:38:52.983Z" tests="2" failures="1" errors="0" time="0.533">
+    <testcase name="Status code is 302 (redirect)" time="0.533" classname="AuthenticationAuthConfirmGet">
+      <failure type="AssertionFailure" message="expected 500 to deeply equal 302">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 562a5e53-3f16-4c57-ac05-764a14179b49.]]>
+        <![CDATA[Collection name: FlowCraft Studio API.]]>
+        <![CDATA[Request name: Authentication / Auth Confirm (GET).]]>
+        <![CDATA[Test description: Status code is 302 (redirect).]]>
+        <![CDATA[Error message: expected 500 to deeply equal 302.]]>
+        <![CDATA[Stacktrace: AssertionError: expected 500 to deeply equal 302
+   at Object.eval sandbox-script.js:1:8).]]>
+      </failure>
+    </testcase>
+    <testcase name="Response time is less than 2000ms" time="0.533" classname="AuthenticationAuthConfirmGet"/>
+  </testsuite>
+  <testsuite name="Error Handling Tests / Test Invalid App Creation" id="1a27f84b-d827-484f-985d-45ce560ef1ab" timestamp="2025-09-27T11:38:52.983Z" tests="3" failures="0" errors="0" time="0.343">
+    <testcase name="Status code is 400 or 401" time="0.343" classname="ErrorHandlingTestsTestInvalidAppCreation"/>
+    <testcase name="Response has error message" time="0.343" classname="ErrorHandlingTestsTestInvalidAppCreation"/>
+    <testcase name="Response time is less than 3000ms" time="0.343" classname="ErrorHandlingTestsTestInvalidAppCreation"/>
+  </testsuite>
+  <testsuite name="Error Handling Tests / Test Nonexistent App Access" id="ca42fe23-79b5-4f9a-aeaa-d296e370f7da" timestamp="2025-09-27T11:38:52.983Z" tests="3" failures="0" errors="0" time="0.335">
+    <testcase name="Status code is 404 or 401" time="0.335" classname="ErrorHandlingTestsTestNonexistentAppAccess"/>
+    <testcase name="Response has error message" time="0.335" classname="ErrorHandlingTestsTestNonexistentAppAccess"/>
+    <testcase name="Response time is less than 3000ms" time="0.335" classname="ErrorHandlingTestsTestNonexistentAppAccess"/>
+  </testsuite>
+</testsuites>

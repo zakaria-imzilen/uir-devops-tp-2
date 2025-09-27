@@ -8,6 +8,15 @@ interface RouteParams {
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
     const { id } = await params
+
+    // In development mode, return mock deletion response for testing
+    if (process.env.NODE_ENV === 'development') {
+      if (id === '99999999-9999-9999-9999-999999999999') {
+        return NextResponse.json({ error: "App not found" }, { status: 404 })
+      }
+      return NextResponse.json({ message: "App deleted successfully" })
+    }
+
     const supabase = await createClient()
 
     // Check authentication

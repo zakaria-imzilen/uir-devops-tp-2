@@ -1,0 +1,46 @@
+{
+  "testUsers": [
+    {
+      "email": "test@example.com",
+      "password": "testpassword123",
+      "role": "user"
+    }
+  ],
+  "testApps": [
+    {
+      "name": "Sample Test App",
+      "html": "<html><body><h1>Test App</h1></body></html>",
+      "css": "h1 { color: blue; }",
+      "js": "console.log('Test app loaded');"
+    },
+    {
+      "name": "API Integration Test App",
+      "html": "<html><body><h1>API Test</h1><div id='content'></div></body></html>",
+      "css": "body { font-family: Arial, sans-serif; } h1 { color: green; }",
+      "js": "document.getElementById('content').innerHTML = 'API test app running';"
+    }
+  ],
+  "invalidTestCases": [
+    {
+      "description": "Empty app name",
+      "data": {
+        "name": "",
+        "html": "<h1>Test</h1>"
+      }
+    },
+    {
+      "description": "Missing name field",
+      "data": {
+        "html": "<h1>Test</h1>",
+        "css": "h1 { color: red; }"
+      }
+    },
+    {
+      "description": "Null name field",
+      "data": {
+        "name": null,
+        "html": "<h1>Test</h1>"
+      }
+    }
+  ]
+}
