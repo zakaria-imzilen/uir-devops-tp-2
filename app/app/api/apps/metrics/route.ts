@@ -1,10 +1,10 @@
-import { register } from '../../../../lib/metrics';
+import { getMetricsData } from '../../../../lib/metrics';
 
 export async function GET() {
-  const metrics = await register.metrics();
+  const metrics = getMetricsData();
   return new Response(metrics, {
     headers: {
-      'Content-Type': register.contentType,
+      'Content-Type': 'text/plain; version=0.0.4; charset=utf-8',
     },
   });
 }

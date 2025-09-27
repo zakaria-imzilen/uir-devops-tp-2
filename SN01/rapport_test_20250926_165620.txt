@@ -1,0 +1,18 @@
+=== Rapport du test Selenium ===
+Date de création : 2025-09-26 16:57:11
+
+Étape 1: Clique sur lien 1 -> OK
+Étape 2: Clique sur lien 2 -> OK
+Étape 3: Remplir email -> OK
+Étape 4: Remplir password -> OK
+Étape 5: Clique bouton login -> OK
+Étape 6: Clique lien suivant -> OK
+Étape 7: Remplir app name -> OK
+Étape 8: Clique bouton 3 -> OK
+Étape 9: Clique bouton 1 -> OK
+Étape 10: Clique lien suivant -> OK
+Étape 11: Remplir app name -> OK
+Étape 12: Clique bouton 3 -> OK
+Étape 13: Clique bouton 1 -> OK
+
+Fin du test.
